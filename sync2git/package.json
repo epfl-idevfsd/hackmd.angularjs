@@ -1,0 +1,11 @@
+{
+  "name": "sync2git",
+  "version": "1.0.0",
+  "description": "Sync CodiMD state from/to git",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "AGPL"
+}
