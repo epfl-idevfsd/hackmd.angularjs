@@ -1,0 +1,31 @@
+# Pour éditer la prez dans le bus !
+#
+# 1. Copier .env.sample vers .env et y changer le mot de passe
+# 2. Taper : docker-compose up -d
+
+version: "3"
+services:
+  postgres:
+    image: postgres:11.5
+    environment:
+      - POSTGRES_USER=codimd
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=codimd
+    volumes:
+      - "database-data:/var/lib/postgresql/data"
+    restart: always
+  codimd:
+    image: nabo.codimd.dev/hackmdio/hackmd:1.4.0
+    environment:
+      - CMD_DB_URL=postgres://codimd:${POSTGRES_PASSWORD}@postgres/codimd
+      - CMD_USECDN=false
+    depends_on:
+      - postgres
+    ports:
+      - "1337:3000"
+    volumes:
+      - upload-data:/home/hackmd/app/public/uploads
+    restart: always
+volumes:
+  database-data: {}
+  upload-data: {}
