@@ -1,11 +1,11 @@
 import { Pool as PgPool } from "pg"
 import createSubscriber from "pg-listen"
+import { Observable } from "rxjs"
 
 main().catch(console.error)
 
 async function main () {
     await ensureTriggers()
-    const subscriber = createSubscriber(pgOpts())
 
     subscriber.notifications.on("my-channel", (payload) => {
         // Payload as passed to subscriber.notify() (see below)
@@ -46,4 +46,27 @@ function pgOpts () {
     return {
         connectionString: process.env.DB_URL
     }
+}
+
+function pgListen (channelName: string) : Observable<any> {
+    const subscriber = createSubscriber(pgOpts())
+
+    process.on("exit", () => {
+        subscriber.close()
+    })
+
+    subscriber.events.on("error", (error) => {
+        console.error("Fatal database connection error:", error)
+        process.exit(1)
+    })
+
+    subscriber.connect().then(() => {
+        subscriber.listenTo(channelName)
+    })
+ 
+    return new Observable(sub => {
+        subscriber.notifications.on(channelName, (payload) => {
+            sub.next(payload)
+        })
+    })
 }
