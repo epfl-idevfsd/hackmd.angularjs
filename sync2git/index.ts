@@ -5,33 +5,12 @@ import { Observable } from "rxjs"
 main().catch(console.error)
 
 async function main () {
-    await ensureTriggers()
+    const notifyChannel = 'sync2git-notes'
+    await ensureTriggers(notifyChannel)
 
-    subscriber.notifications.on("my-channel", (payload) => {
-        // Payload as passed to subscriber.notify() (see below)
-        console.log("Received notification in 'my-channel':", payload)
-    })
-
-    subscriber.events.on("error", (error) => {
-        console.error("Fatal database connection error:", error)
-        process.exit(1)
-    })
-
-    process.on("exit", () => {
-        subscriber.close()
-    })
-
-    await subscriber.connect()
-    await subscriber.listenTo("my-channel")
-}
-
-async function ensureTriggers () {
-    const pg = getPool()
-
-    const res = await pg.query('SELECT $1::text as message', ['Hello world!'])
-
-    console.log(res.rows[0].message) // Hello world!
-    await pg.end()
+    const listener : Observable<any> = pgListen(notifyChannel)
+    listener.subscribe((payload) => console.log(`${notifyChannel} says: `,
+                                                payload))
 }
 
 let pgPool : PgPool
@@ -48,7 +27,7 @@ function pgOpts () {
     }
 }
 
-function pgListen (channelName: string) : Observable<any> {
+function pgListen (notifyChannel: string) : Observable<any> {
     const subscriber = createSubscriber(pgOpts())
 
     process.on("exit", () => {
@@ -61,12 +40,41 @@ function pgListen (channelName: string) : Observable<any> {
     })
 
     subscriber.connect().then(() => {
-        subscriber.listenTo(channelName)
+        subscriber.listenTo(notifyChannel)
     })
  
     return new Observable(sub => {
-        subscriber.notifications.on(channelName, (payload) => {
+        subscriber.notifications.on(notifyChannel, (payload) => {
             sub.next(payload)
         })
     })
 }
+
+
+async function ensureTriggers (notifyChannel : string) {
+    // https://gist.github.com/colophonemes/9701b906c5be572a40a84b08f4d2fa4e
+    const pg = getPool()
+
+    await pg.query('DROP PROCEDURE IF EXISTS notify_trigger;')
+
+    await pg.query(`
+CREATE OR REPLACE FUNCTION notify_trigger() RETURNS trigger AS $trigger$
+BEGIN
+PERFORM pg_notify('${notifyChannel}', '');
+RETURN NEW;
+END;
+$trigger$ LANGUAGE plpgsql;
+`)
+
+    await pg.query('DROP TRIGGER IF EXISTS Notes_trigger ON "Notes";')
+
+    await pg.query(`
+CREATE TRIGGER Notes_trigger
+AFTER INSERT OR UPDATE
+ON "Notes"
+EXECUTE PROCEDURE notify_trigger();
+`)
+
+    await pg.end()
+}
+
