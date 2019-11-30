@@ -1,5 +1,5 @@
 {
   "watch": ["index.ts"],
   "ext": "ts",
-  "exec": "runit() { \n node \"$@\" -r ts-node/register/type-check ./index.ts \n } \n set -e -x; runit \"$@\""
+  "exec": "./run.sh"
 }
