@@ -34,7 +34,6 @@ services:
     volumes:
       - ./sync2git:/sync2git:ro
       - ./:/home/git:rw
-    command: "sleep 36000"
 volumes:
   database-data: {}
   upload-data: {}
