@@ -26,14 +26,13 @@ services:
     volumes:
       - upload-data:/home/hackmd/app/public/uploads
     restart: always
-  sync2git:
-    build: sync2git
-    image: epflidevfsd/codimd-sync2git
+  syncer:
+    build: syncer
+    image: epflidevfsd/codimd-syncer
     environment:
       - DB_URL=postgres://codimd:${POSTGRES_PASSWORD}@postgres/codimd
     volumes:
-      - ./sync2git:/sync2git:ro
-      - ./:/home/git:rw
+      - ./:/home/work:rw
 volumes:
   database-data: {}
   upload-data: {}

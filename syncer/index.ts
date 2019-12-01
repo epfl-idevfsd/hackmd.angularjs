@@ -4,12 +4,12 @@ import { defer, Observable } from "rxjs"
 import { filter, map, concatAll, tap } from 'rxjs/operators'
 
 import debug_ from "debug"
-const debug = debug_("sync2git")
+const debug = debug_("syncer")
 
 main(process.argv).catch(console.error)
 
 async function main (argv: string[]) {
-    const notifyChannel = 'sync2git-notes'
+    const notifyChannel = 'syncer-notes'
     const { gitConfig } = parseCommandLine(argv)
     await ensureTriggers(notifyChannel)
 
