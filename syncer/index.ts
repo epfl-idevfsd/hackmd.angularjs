@@ -10,7 +10,7 @@ main(process.argv).catch(console.error)
 
 async function main (argv: string[]) {
     const notifyChannel = 'syncer-notes'
-    const { gitConfig } = parseCommandLine(argv)
+    const config = parseCommandLine(argv)
     await ensureTriggers(notifyChannel)
 
     type NotesEvent = PgEvent<{shortid: string}>
@@ -27,7 +27,7 @@ async function main (argv: string[]) {
                 const shortId = event.data.shortid,
                       text = await getNoteText(shortId)
 
-                return commitNoteToGit(gitConfig, shortId, text)
+                return saveNote(config, shortId, text)
             })),
         concatAll()
     ).subscribe(console.log)
@@ -147,8 +147,8 @@ FOR EACH ROW EXECUTE PROCEDURE notify_trigger('shortid');
  * The observable starts the commit operation only when it is subscribed
  * to. It then returns a single value (the commit SHA1) and completes.
  */
-async function commitNoteToGit (_gitConfig: GitConfig, shortId: string,
-                                text: string)  {
+async function saveNote (_config: Config, shortId: string,
+                         text: string) {
     debug('Commit on %o starts; text: %o', shortId, text)
     await new Promise(resolve => setTimeout(resolve, 2000));  // Sleep
     debug('Commit on %o done; text: %o', shortId, text)
@@ -162,7 +162,7 @@ async function getNoteText (shortId : string) {
     return results.rows[0].content
 }
 
-type GitConfig = { dir : string, markdownPath: string }
-function parseCommandLine (argv : string[]) : { gitConfig : GitConfig} {
-    return { gitConfig : { dir : argv[1], markdownPath: argv[2] } }
+type Config = { markdownPath: string }
+function parseCommandLine (argv : string[]) : Config {
+    return { markdownPath : argv[1] }
 }
