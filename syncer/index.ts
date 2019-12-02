@@ -1,5 +1,5 @@
-import { Pool as PgPool } from "pg"
-import createSubscriber from "pg-listen"
+import { Pool as PgPool } from 'pg'
+import createSubscriber from 'pg-listen'
 import { defer, Observable } from "rxjs"
 import { filter, map, concatAll, tap } from 'rxjs/operators'
 
@@ -15,8 +15,8 @@ async function main (argv: string[]) {
     const config = parseCommandLine(argv)
     await ensureTriggers(notifyChannel)
 
-    const listener : Observable<NotesEvent> = pgListen(notifyChannel)
-    listener.pipe(
+    const pgListener : Observable<NotesEvent> = pgListen(notifyChannel)
+    pgListener.pipe(
         filter((event : NotesEvent) => event.operation != 'DELETE'),
         tap((e : NotesEvent) => debug('%o %o', e.operation, e.new.shortid)),
         // Turn into “higher-order Observable”
@@ -116,10 +116,10 @@ BEGIN
   -- Build the payload
   payload := ''
               || '{'
-              || '"timestamp":"' || CURRENT_TIMESTAMP                    || '",'
-              || '"operation":"' || TG_OP                                || '",'
-              || '"schema":"'    || TG_TABLE_SCHEMA                      || '",'
-              || '"table":"'     || TG_TABLE_NAME                        || '",'
+              || '"timestamp":"' || CURRENT_TIMESTAMP || '",'
+              || '"operation":"' || TG_OP             || '",'
+              || '"schema":"'    || TG_TABLE_SCHEMA   || '",'
+              || '"table":"'     || TG_TABLE_NAME     || '",'
               || oldNewData
               || '}';
 
@@ -172,9 +172,9 @@ FOR EACH ROW EXECUTE PROCEDURE notify_trigger('shortid', 'content');
  */
 async function saveNote (_config: Config, shortId: string,
                          text: string) {
-    debug('Commit on %o starts; text: %o', shortId, text)
+    debug('Save on %o starts; text: %o', shortId, text)
     await new Promise(resolve => setTimeout(resolve, 2000));  // Sleep
-    debug('Commit on %o done; text: %o', shortId, text)
+    debug('Save on %o done; text: %o', shortId, text)
     return `XXXXsha1sha1${shortId}`
 }
 
