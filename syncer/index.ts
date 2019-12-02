@@ -8,24 +8,25 @@ const debug = debug_("syncer")
 
 main(process.argv).catch(console.error)
 
+type NotesEvent = PgEvent<NotesRow>
+
 async function main (argv: string[]) {
     const notifyChannel = 'syncer-notes'
     const config = parseCommandLine(argv)
     await ensureTriggers(notifyChannel)
 
-    type NotesEvent = PgEvent<{shortid: string}>
     const listener : Observable<NotesEvent> = pgListen(notifyChannel)
     listener.pipe(
         filter((event : NotesEvent) => event.operation != 'DELETE'),
-        tap((e : NotesEvent) => debug('%o %o', e.operation, e.data.shortid)),
+        tap((e : NotesEvent) => debug('%o %o', e.operation, e.new.shortid)),
         // Turn into “higher-order Observable”
         map((event : NotesEvent) => defer(
             // Deferred: this function only starts when the
             // so-called “inner Observable” is subscribed to (by
             // `concatAll`, below)
             async () => {
-                const shortId = event.data.shortid,
-                      text = await getNoteText(shortId)
+                const shortId = event.new.shortid,
+                      text = event.new.content
 
                 return saveNote(config, shortId, text)
             })),
@@ -49,7 +50,7 @@ function pgOpts () {
     }
 }
 
-function pgListen (notifyChannel: string) : Observable<PgEvent<{shortid: string}>> {
+function pgListen (notifyChannel: string) : Observable<NotesEvent> {
     const subscriber = createSubscriber(pgOpts())
 
     process.on("exit", () => {
@@ -77,41 +78,40 @@ type PgEvent<DATA> = {
     operation: string,
     schema: string,
     table: string,
-    data: DATA
+    old: DATA,
+    new: DATA
+}
+
+type NotesRow = {
+    shortid: string,
+    content: string
 }
 
 async function ensureTriggers (notifyChannel : string) {
     // https://gist.github.com/colophonemes/9701b906c5be572a40a84b08f4d2fa4e
     const pg = getPool()
 
-    await pg.query('DROP FUNCTION IF EXISTS notify_trigger CASCADE;')
-
     await pg.query(`
+DROP FUNCTION IF EXISTS notify_trigger CASCADE;
+
 CREATE FUNCTION notify_trigger() RETURNS trigger AS $trigger$
 DECLARE
   rec RECORD;
   payload TEXT;
-  column_name TEXT;
-  column_value TEXT;
-  payload_items TEXT[];
+  oldNewData TEXT;
 BEGIN
-  -- Set record row depending on operation
+
   CASE TG_OP
-  WHEN 'INSERT', 'UPDATE' THEN
-     rec := NEW;
+  WHEN 'INSERT' THEN
+     oldNewData := '"new":' || record_to_json(NEW, TG_ARGV);
+  WHEN 'UPDATE' THEN
+     oldNewData := '"old":' || record_to_json(OLD, TG_ARGV)
+              || ', "new":' || record_to_json(NEW, TG_ARGV);
   WHEN 'DELETE' THEN
-     rec := OLD;
+     oldNewData := '"old":' || record_to_json(OLD, TG_ARGV);
   ELSE
      RAISE EXCEPTION 'Unknown TG_OP: "%". Should not occur!', TG_OP;
   END CASE;
-
-  -- Get required fields
-  FOREACH column_name IN ARRAY TG_ARGV LOOP
-    EXECUTE format('SELECT $1.%I::TEXT', column_name)
-    INTO column_value
-    USING rec;
-    payload_items := array_cat(payload_items, array[column_name, column_value]);
-  END LOOP;
 
   -- Build the payload
   payload := ''
@@ -120,24 +120,47 @@ BEGIN
               || '"operation":"' || TG_OP                                || '",'
               || '"schema":"'    || TG_TABLE_SCHEMA                      || '",'
               || '"table":"'     || TG_TABLE_NAME                        || '",'
-              || '"data":'       || to_json(json_object(payload_items))
+              || oldNewData
               || '}';
 
   -- Notify the channel
   PERFORM pg_notify('${notifyChannel}', payload);
 
-  RETURN rec;
+  -- Return what PostgreSQL expects
+  CASE TG_OP
+  WHEN 'INSERT', 'UPDATE' THEN
+     return NEW;
+  WHEN 'DELETE' THEN
+     return OLD;
+  END CASE;
 END;
-$trigger$ LANGUAGE plpgsql;`
-)
+$trigger$ LANGUAGE plpgsql;
 
-    await pg.query('DROP TRIGGER IF EXISTS Notes_trigger ON "Notes";')
+DROP FUNCTION IF EXISTS record_to_json CASCADE;
 
-    await pg.query(`
+CREATE FUNCTION record_to_json(rec RECORD, columns text[]) RETURNS text AS $recordtojson$
+DECLARE
+  column_name TEXT;
+  column_value TEXT;
+  items TEXT[];
+BEGIN
+  FOREACH column_name IN ARRAY columns LOOP
+    EXECUTE format('SELECT $1.%I::TEXT', column_name)
+    INTO column_value
+    USING rec;
+    items := array_cat(items, array[column_name, column_value]);
+  END LOOP;
+
+  return to_json(json_object(items));
+END;
+$recordtojson$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS Notes_trigger ON "Notes";
+
 CREATE TRIGGER Notes_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON "Notes"
-FOR EACH ROW EXECUTE PROCEDURE notify_trigger('shortid');
+FOR EACH ROW EXECUTE PROCEDURE notify_trigger('shortid', 'content');
 `)
 }
 
@@ -155,12 +178,6 @@ async function saveNote (_config: Config, shortId: string,
     return `XXXXsha1sha1${shortId}`
 }
 
-async function getNoteText (shortId : string) {
-    const pg = getPool()
-
-    const results = await pg.query('SELECT "content" from "Notes" where shortid = $1', [shortId])
-    return results.rows[0].content
-}
 
 type Config = { markdownPath: string }
 function parseCommandLine (argv : string[]) : Config {
