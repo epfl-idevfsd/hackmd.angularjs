@@ -1,40 +1,20 @@
 import { Pool as PgPool } from 'pg'
-import createSubscriber from 'pg-listen'
-import { defer, Observable } from "rxjs"
-import { filter, map, concatAll, tap } from 'rxjs/operators'
+import pgCreateSubscriber from 'pg-listen'
+import { Subscriber as PgSubscriber } from 'pg-listen'
+import { Observable } from "rxjs"
+import {  flatMap, tap } from 'rxjs/operators'
 
 import debug_ from "debug"
 const debug = debug_("syncer")
 
-main(process.argv).catch(console.error)
-
-type NotesEvent = PgEvent<NotesRow>
-
 async function main (argv: string[]) {
-    const notifyChannel = 'syncer-notes'
     const config = parseCommandLine(argv)
-    await ensureTriggers(notifyChannel)
 
-    const pgListener : Observable<NotesEvent> = pgListen(notifyChannel)
-    pgListener.pipe(
-        filter((event : NotesEvent) => event.operation != 'DELETE'),
-        tap((e : NotesEvent) => debug('%o %o', e.operation, e.new.shortid)),
-        // Turn into “higher-order Observable”
-        map((event : NotesEvent) => defer(
-            // Deferred: this function only starts when the
-            // so-called “inner Observable” is subscribed to (by
-            // `concatAll`, below)
-            async () => {
-                const shortId = event.new.shortid,
-                      text = event.new.content
-
-                return saveNote(config, shortId, text)
-            })),
-        concatAll()
-    ).subscribe(console.log)
+    const pgNotesStream = new PgNotesStream(config)
+    pgNotesStream.stream().subscribe(console.log)
 }
 
-////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////// PostgreSQL interface //////////////////////////////
 
 let pgPool : PgPool
 function getPool () {
@@ -50,41 +30,11 @@ function pgOpts () {
     }
 }
 
-function pgListen (notifyChannel: string) : Observable<NotesEvent> {
-    const subscriber = createSubscriber(pgOpts())
-
-    process.on("exit", () => {
-        subscriber.close()
-    })
-
-    subscriber.events.on("error", (error) => {
-        console.error("Fatal database connection error:", error)
-        process.exit(1)
-    })
-
-    subscriber.connect().then(() => {
-        subscriber.listenTo(notifyChannel)
-    })
-
-    return new Observable(sub => {
-        subscriber.notifications.on(notifyChannel, (payload) => {
-            sub.next(payload)
-        })
-    })
-}
-
-type PgEvent<DATA> = {
-    timestamp: string,
+type PgEvent = {
     operation: string,
     schema: string,
     table: string,
-    old: DATA,
-    new: DATA
-}
-
-type NotesRow = {
-    shortid: string,
-    content: string
+    sync_revisions_id : number
 }
 
 async function ensureTriggers (notifyChannel : string) {
@@ -92,39 +42,40 @@ async function ensureTriggers (notifyChannel : string) {
     const pg = getPool()
 
     await pg.query(`
-DROP FUNCTION IF EXISTS notify_trigger CASCADE;
+DROP FUNCTION IF EXISTS note_trigger CASCADE;
 
-CREATE FUNCTION notify_trigger() RETURNS trigger AS $trigger$
+CREATE FUNCTION note_trigger() RETURNS trigger AS $trigger$
 DECLARE
-  rec RECORD;
   payload TEXT;
-  oldNewData TEXT;
+  revision_id INT4;
 BEGIN
 
   CASE TG_OP
   WHEN 'INSERT' THEN
-     oldNewData := '"new":' || record_to_json(NEW, TG_ARGV);
+     INSERT INTO sync_revisions (note_id, shortid, timestamp, operation, new_content)
+                 VALUES (NEW.id, NEW.shortid, CURRENT_TIMESTAMP, TG_OP, NEW.content)
+                 RETURNING id INTO revision_id;
   WHEN 'UPDATE' THEN
-     oldNewData := '"old":' || record_to_json(OLD, TG_ARGV)
-              || ', "new":' || record_to_json(NEW, TG_ARGV);
+     INSERT INTO sync_revisions (note_id, shortid, timestamp, operation, old_content, new_content)
+                 VALUES (NEW.id, NEW.shortid, CURRENT_TIMESTAMP, TG_OP, OLD.content, NEW.content)
+                 RETURNING id INTO revision_id;
   WHEN 'DELETE' THEN
-     oldNewData := '"old":' || record_to_json(OLD, TG_ARGV);
+     INSERT INTO sync_revisions (note_id, shortid, timestamp, operation, old_content)
+                 VALUES (OLD.id, OLD.shortid, CURRENT_TIMESTAMP, TG_OP, OLD.content)
+                 RETURNING id INTO revision_id;
   ELSE
      RAISE EXCEPTION 'Unknown TG_OP: "%". Should not occur!', TG_OP;
   END CASE;
 
-  -- Build the payload
-  payload := ''
-              || '{'
-              || '"timestamp":"' || CURRENT_TIMESTAMP || '",'
-              || '"operation":"' || TG_OP             || '",'
-              || '"schema":"'    || TG_TABLE_SCHEMA   || '",'
-              || '"table":"'     || TG_TABLE_NAME     || '",'
-              || oldNewData
-              || '}';
-
   -- Notify the channel
-  PERFORM pg_notify('${notifyChannel}', payload);
+  PERFORM pg_notify(
+    '${notifyChannel}',
+    '{'
+              || '"operation":"'        || TG_OP             || '",'
+              || '"schema":"'           || TG_TABLE_SCHEMA   || '",'
+              || '"table":"'            || TG_TABLE_NAME     || '",'
+              || '"sync_revisions_id":' || revision_id
+              || '}');
 
   -- Return what PostgreSQL expects
   CASE TG_OP
@@ -160,9 +111,108 @@ DROP TRIGGER IF EXISTS Notes_trigger ON "Notes";
 CREATE TRIGGER Notes_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON "Notes"
-FOR EACH ROW EXECUTE PROCEDURE notify_trigger('shortid', 'content');
+FOR EACH ROW EXECUTE PROCEDURE note_trigger();
+
+DROP TABLE IF EXISTS sync_revisions;
+CREATE TABLE sync_revisions (
+  id SERIAL,
+  note_id uuid NOT NULL REFERENCES "Notes" ON DELETE CASCADE,
+  timestamp TIMESTAMP NOT NULL,
+  shortid VARCHAR(255) NOT NULL,
+  operation TEXT NOT NULL,
+  old_content TEXT,
+  new_content TEXT
+);
 `)
 }
+
+//////////////////////////////// Note class /////////////////////////////
+
+class Note {
+    constructor() {}
+
+}
+
+/////////////////////////// PgNotesStream class ////////////////////////
+
+module PgNotesStream {
+    export type Change = {
+        shortid: string
+        oldContent: string
+        newContent: string
+        filename: string
+    }
+}
+
+class PgNotesStream {
+    private subscriber : PgSubscriber
+
+    constructor (private config : Config) {
+        process.on("exit", () => {
+            this.done()
+        })
+    }
+
+    async done() {
+        await this.subscriber.close()
+    }
+
+    private listenPg () : Observable<PgEvent> {
+        const notifyChannel = 'syncer-notes'
+
+        const fatal = (error : Error) => {
+            console.error("Fatal database error:", error)
+            this.done()
+        }
+
+        this.subscriber = pgCreateSubscriber(pgOpts())
+
+        this.subscriber.events.on("error", fatal)
+
+        ensureTriggers(notifyChannel)
+            .then(() => this.subscriber.connect())
+            .catch(fatal)
+
+        this.subscriber.listenTo(notifyChannel)
+        return new Observable(sub => {
+            this.subscriber.notifications.on(
+                notifyChannel,
+                (payload) => { sub.next(payload) }
+            )})
+    }
+
+    private async consumeChange (id : number) : Promise<PgNotesStream.Change | null> {
+        const client = await getPool().connect()
+        await client.query('BEGIN')
+        const res = await client.query(
+            `SELECT
+             shortid, operation, old_content, new_content
+             FROM sync_revisions
+             WHERE id = $1
+             FOR UPDATE`, [id])
+        await client.query(
+            `DELETE FROM sync_revisions
+             WHERE id = $1`, [id])
+        await client.query('COMMIT')
+        const row = res.rows[0]
+        return {
+            shortid: row.shortid,
+            oldContent: row.old_content,
+            newContent: row.new_content,
+            filename: parseFilenameFromHeader(row.new_content ||
+                                              row.old_content)
+        }
+    }
+
+    public stream () : Observable<PgNotesStream.Change> {
+        return this.listenPg().pipe(
+            flatMap((event : PgEvent) => this.consumeChange(event.sync_revisions_id)),
+            tap((e) => debug('%o', e))
+        )
+    }
+}
+
+/////////////////////////// FsNotesStream class //////////////////////
 
 /**
  * Creates an observable for the action of committing a revision to Git.
@@ -178,8 +228,27 @@ async function saveNote (_config: Config, shortId: string,
     return `XXXXsha1sha1${shortId}`
 }
 
+////////////////////////// Ancillary functions ///////////////////////////
 
-type Config = { markdownPath: string }
-function parseCommandLine (argv : string[]) : Config {
-    return { markdownPath : argv[1] }
+function parseFilenameFromHeader (content : string) : string | null {
+    if (! content) return null
+
+    const headerMatch = content.match(/^---(.*?)^---/sm)
+    if (! headerMatch) return null
+
+    const filenameMatch = headerMatch[1].match(/^filename: (.*)/m)
+    const retval = filenameMatch && filenameMatch[1]
+    debug("parseFilenameFromHeader: returning %o", retval)
+    return retval
 }
+
+////////////////// Command-line parsing and default values ///////////////
+
+type Config = { markdownDir: string }
+function parseCommandLine (argv : string[]) : Config {
+    return { markdownDir : argv[1] }
+}
+
+//////////////////////////////// The end /////////////////////////////////
+
+main(process.argv).catch(console.error)
