@@ -1,5 +1,6 @@
 ---
 title: Présentation de Angular JS, EPFL VPSI — Décembre 2019
+filename: prez-Angular.md
 tags: AngularJS, EPFL
 description: View the slide with "Slide Mode".
 lang: fr
