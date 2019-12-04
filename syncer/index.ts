@@ -217,18 +217,15 @@ class PgNotesStream {
     }
 
     private async consumeChange (id : number) : Promise<PgNotesStream.Change | null> {
-        const client = await getPool().connect()
-        await client.query('BEGIN')
-        const res = await client.query(
+        const pool = getPool()
+        const res = await pool.query(
             `SELECT
              shortid, operation, old_content, new_content
              FROM sync_revisions
-             WHERE id = $1
-             FOR UPDATE`, [id])
-        await client.query(
+             WHERE id = $1`, [id])
+        await pool.query(
             `DELETE FROM sync_revisions
              WHERE id = $1`, [id])
-        await client.query('COMMIT')
         const row = res.rows[0]
         return {
             shortid: row.shortid,
