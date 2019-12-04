@@ -41,9 +41,9 @@ async function ensureTriggers (notifyChannel : string) {
     // https://gist.github.com/colophonemes/9701b906c5be572a40a84b08f4d2fa4e
     const pg = getPool()
 
-    await pg.query(`
-DROP FUNCTION IF EXISTS note_trigger CASCADE;
+    await cleanupTriggers()
 
+    await pg.query(`
 CREATE FUNCTION note_trigger() RETURNS trigger AS $trigger$
 DECLARE
   payload TEXT;
@@ -87,7 +87,6 @@ BEGIN
 END;
 $trigger$ LANGUAGE plpgsql;
 
-DROP FUNCTION IF EXISTS record_to_json CASCADE;
 
 CREATE FUNCTION record_to_json(rec RECORD, columns text[]) RETURNS text AS $recordtojson$
 DECLARE
@@ -106,14 +105,13 @@ BEGIN
 END;
 $recordtojson$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS Notes_trigger ON "Notes";
 
 CREATE TRIGGER Notes_trigger
 AFTER INSERT OR UPDATE OR DELETE
 ON "Notes"
 FOR EACH ROW EXECUTE PROCEDURE note_trigger();
 
-DROP TABLE IF EXISTS sync_revisions;
+
 CREATE TABLE sync_revisions (
   id SERIAL,
   note_id uuid NOT NULL REFERENCES "Notes" ON DELETE CASCADE,
@@ -124,6 +122,18 @@ CREATE TABLE sync_revisions (
   new_content TEXT
 );
 `)
+}
+
+async function cleanupTriggers () {
+    const pg = getPool()
+
+    await pg.query(`
+DROP FUNCTION IF EXISTS note_trigger CASCADE;
+DROP FUNCTION IF EXISTS record_to_json CASCADE;
+DROP TRIGGER IF EXISTS Notes_trigger ON "Notes";
+DROP TABLE IF EXISTS sync_revisions;
+`)
+    debug('cleanupTriggers(): done')
 }
 
 //////////////////////////////// Note class /////////////////////////////
@@ -148,13 +158,15 @@ class PgNotesStream {
     private subscriber : PgSubscriber
 
     constructor (private config : Config) {
-        process.on("exit", () => {
-            this.done()
+        process.on("SIGINT", async () => {
+            await this.done()
+            process.exit(1)
         })
     }
 
     async done() {
         await this.subscriber.close()
+        await cleanupTriggers()
     }
 
     private listenPg () : Observable<PgEvent> {
