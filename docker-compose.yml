@@ -24,7 +24,7 @@ services:
     ports:
       - "1337:3000"
     volumes:
-      - upload-data:/home/hackmd/app/public/uploads
+      - ./uploads:/home/hackmd/app/public/uploads
     restart: always
   syncer:
     build: syncer
