@@ -1,8 +1,8 @@
 import { Pool as PgPool } from 'pg'
 import pgCreateSubscriber from 'pg-listen'
 import { Subscriber as PgSubscriber } from 'pg-listen'
-import { Observable } from "rxjs"
-import {  flatMap, tap } from 'rxjs/operators'
+import { concat, from, Observable } from "rxjs"
+import { flatMap } from 'rxjs/operators'
 
 import debug_ from "debug"
 const debug = debug_("syncer")
@@ -186,6 +186,7 @@ class PgNotesStream {
             .catch(fatal)
 
         this.subscriber.listenTo(notifyChannel)
+
         return new Observable(sub => {
             this.subscriber.notifications.on(
                 notifyChannel,
@@ -216,11 +217,31 @@ class PgNotesStream {
         }
     }
 
+
+    private async initialScan () : Promise<PgNotesStream.Change[]> {
+        const client = getPool(),
+              res = await client.query('SELECT shortid, content FROM "Notes"')
+
+        return res.rows.map((row) => ({
+                    shortid: row.shortid,
+                    oldContent: null,
+                    newContent: row.content,
+                    filename: parseFilenameFromHeader(row.content)
+        }))
+    }
+
     public stream () : Observable<PgNotesStream.Change> {
-        return this.listenPg().pipe(
-            flatMap((event : PgEvent) => this.consumeChange(event.sync_revisions_id)),
-            tap((e) => debug('%o', e))
-        )
+        function fromPromisedArray<T> (p : Promise<T[]>)
+        : Observable<T> {
+            return from(p).pipe(flatMap((array) => from(array)))
+        }
+
+        return concat(
+            fromPromisedArray(this.initialScan()),
+            this.listenPg().pipe(
+                flatMap((pgEvent) => this.consumeChange(
+                    pgEvent.sync_revisions_id))
+            ))
     }
 }
 
