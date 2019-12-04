@@ -1,8 +1,11 @@
+import * as path from 'path'
+import { promises as fs } from 'fs'
 import { Pool as PgPool } from 'pg'
 import pgCreateSubscriber from 'pg-listen'
 import { Subscriber as PgSubscriber } from 'pg-listen'
 import { concat, from, Observable } from "rxjs"
 import { flatMap } from 'rxjs/operators'
+import * as chokidar from 'chokidar'
 
 import debug_ from "debug"
 const debug = debug_("syncer")
@@ -11,7 +14,10 @@ async function main (argv: string[]) {
     const config = parseCommandLine(argv)
 
     const pgNotesStream = new PgNotesStream(config)
-    pgNotesStream.stream().subscribe(console.log)
+    pgNotesStream.stream().subscribe((c) => console.log([c.filename, c.shortid, c.newContent.length]))
+
+    const fsNotesStream = new FsNotesStream(config)
+    fsNotesStream.stream().subscribe((c) => console.log([c.filename, c.newContent.length]))
 }
 
 /////////////////////////// PostgreSQL interface //////////////////////////////
@@ -136,13 +142,6 @@ DROP TABLE IF EXISTS sync_revisions;
     debug('cleanupTriggers(): done')
 }
 
-//////////////////////////////// Note class /////////////////////////////
-
-class Note {
-    constructor() {}
-
-}
-
 /////////////////////////// PgNotesStream class ////////////////////////
 
 module PgNotesStream {
@@ -247,6 +246,37 @@ class PgNotesStream {
 
 /////////////////////////// FsNotesStream class //////////////////////
 
+module FsNotesStream {
+    export type Change = {
+        filename: string,
+        newContent: string
+    }
+}
+
+class FsNotesStream {
+    constructor (private config : Config) {}
+
+    stream () : Observable<FsNotesStream.Change> {
+        return new Observable(sub => {
+            async function fileChanged(f : string) {
+                const fileText = await fs.readFile(f, "utf8")
+                sub.next({
+                    filename: path.basename(f),
+                    newContent: fileText
+                })
+            }
+
+            const watched = this.config.markdownDir + '/*.md'
+            debug('chokidar: watching %o', watched)
+            const watcher = chokidar.watch(
+                watched,
+                { persistent: true })
+            watcher.on('add', fileChanged)
+            watcher.on('change', fileChanged)
+        })
+    }
+}
+
 /**
  * Creates an observable for the action of committing a revision to Git.
  *
@@ -279,7 +309,7 @@ function parseFilenameFromHeader (content : string) : string | null {
 
 type Config = { markdownDir: string }
 function parseCommandLine (argv : string[]) : Config {
-    return { markdownDir : argv[1] }
+    return { markdownDir : argv[argv.length - 1] }
 }
 
 //////////////////////////////// The end /////////////////////////////////
