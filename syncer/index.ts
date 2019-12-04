@@ -1,11 +1,17 @@
-import * as path from 'path'
-import { promises as fs } from 'fs'
+/**
+ * Sync changes from CodiMD's PostgreSQL database to the file system.
+ *
+ * Due to https://github.com/hackmdio/codimd/issues/1013 it is not
+ * currently possible to do the opposite.
+ */
+
+import { promises as fs, constants as fsc } from 'fs'
 import { Pool as PgPool } from 'pg'
 import pgCreateSubscriber from 'pg-listen'
 import { Subscriber as PgSubscriber } from 'pg-listen'
-import { concat, from, Observable } from "rxjs"
-import { flatMap } from 'rxjs/operators'
-import * as chokidar from 'chokidar'
+import { concat, defer, from, of, Observable } from "rxjs"
+import { concatAll, map, flatMap, tap } from 'rxjs/operators'
+import * as writeFileAtomic from 'write-file-atomic'
 
 import debug_ from "debug"
 const debug = debug_("syncer")
@@ -14,10 +20,28 @@ async function main (argv: string[]) {
     const config = parseCommandLine(argv)
 
     const pgNotesStream = new PgNotesStream(config)
-    pgNotesStream.stream().subscribe((c) => console.log([c.filename, c.shortid, c.newContent.length]))
+    pgNotesStream.stream()
+        .pipe(
+            tap((chg) => debug('Change: %o %o', chg.shortid, chg.newContent.length)),
+            map((chg) => {
+                if (! chg.newContent) return of()
+                if (chg.oldContent === chg.newContent) return of()
+                const content = chg.newContent,
+                filename = parseFilenameFromHeader(content)
+                if (! filename) return of()
+                debug('%o needs sync to %o', chg.shortid, filename)
 
-    const fsNotesStream = new FsNotesStream(config)
-    fsNotesStream.stream().subscribe((c) => console.log([c.filename, c.newContent.length]))
+                return defer(() => {
+                    debug('Sync starting on %o', filename)
+                    const updater = new AtomicCompareUpdateFile(config, filename)
+
+                    return from(updater.update(chg.oldContent, content))
+                          .pipe(tap(() => debug('Sync done on %o', filename)))
+                })
+            }),
+            concatAll()  // defer() + concatAll() = don't parallelize saves
+        )
+        .subscribe(() => {})
 }
 
 /////////////////////////// PostgreSQL interface //////////////////////////////
@@ -149,7 +173,6 @@ module PgNotesStream {
         shortid: string
         oldContent: string
         newContent: string
-        filename: string
     }
 }
 
@@ -210,33 +233,12 @@ class PgNotesStream {
         return {
             shortid: row.shortid,
             oldContent: row.old_content,
-            newContent: row.new_content,
-            filename: parseFilenameFromHeader(row.new_content ||
-                                              row.old_content)
+            newContent: row.new_content
         }
-    }
-
-
-    private async initialScan () : Promise<PgNotesStream.Change[]> {
-        const client = getPool(),
-              res = await client.query('SELECT shortid, content FROM "Notes"')
-
-        return res.rows.map((row) => ({
-                    shortid: row.shortid,
-                    oldContent: null,
-                    newContent: row.content,
-                    filename: parseFilenameFromHeader(row.content)
-        }))
     }
 
     public stream () : Observable<PgNotesStream.Change> {
-        function fromPromisedArray<T> (p : Promise<T[]>)
-        : Observable<T> {
-            return from(p).pipe(flatMap((array) => from(array)))
-        }
-
         return concat(
-            fromPromisedArray(this.initialScan()),
             this.listenPg().pipe(
                 flatMap((pgEvent) => this.consumeChange(
                     pgEvent.sync_revisions_id))
@@ -244,51 +246,46 @@ class PgNotesStream {
     }
 }
 
-/////////////////////////// FsNotesStream class //////////////////////
+/////////////////////////// Filesystem operations //////////////////////
 
-module FsNotesStream {
-    export type Change = {
-        filename: string,
-        newContent: string
+class AtomicCompareUpdateFile {
+    private filename : string
+    constructor (private config: Config, basename : string) {
+        this.filename = this.config.markdownDir + '/' + basename
     }
-}
+    
+    public async update (from : string, to : string) {
+        const [oldContents, backupPath] = await this.mkbackup()
+        await writeFileAtomic(this.filename, to)
+        if (from === oldContents) await fs.unlink(backupPath)
+    }
 
-class FsNotesStream {
-    constructor (private config : Config) {}
+    private async mkbackup () : Promise<[string, string]> {
+        let uniqueCounter = 0
+        const anotherBackupFilename  = () => this.filename + '.BAK-' + uniqueCounter++
+        let fd : fs.FileHandle, backupFilename : string
 
-    stream () : Observable<FsNotesStream.Change> {
-        return new Observable(sub => {
-            async function fileChanged(f : string) {
-                const fileText = await fs.readFile(f, "utf8")
-                sub.next({
-                    filename: path.basename(f),
-                    newContent: fileText
-                })
+        for(backupFilename = anotherBackupFilename();;
+            backupFilename = anotherBackupFilename()) {
+            try {
+                fd = await fs.open(backupFilename,
+                              fsc.O_WRONLY | fsc.O_CREAT | fsc.O_EXCL)
+                break
+            } catch (e) {
+                if (e.code === 'EEXIST') {
+                    continue
+                } else {
+                    throw e
+                }
             }
+        }
 
-            const watched = this.config.markdownDir + '/*.md'
-            debug('chokidar: watching %o', watched)
-            const watcher = chokidar.watch(
-                watched,
-                { persistent: true })
-            watcher.on('add', fileChanged)
-            watcher.on('change', fileChanged)
-        })
+        const contents = await fs.readFile(this.filename)
+        await fd.writeFile(contents)
+        await fd.close()
+
+        return [contents.toString("utf8"), backupFilename]
     }
-}
-
-/**
- * Creates an observable for the action of committing a revision to Git.
- *
- * The observable starts the commit operation only when it is subscribed
- * to. It then returns a single value (the commit SHA1) and completes.
- */
-async function saveNote (_config: Config, shortId: string,
-                         text: string) {
-    debug('Save on %o starts; text: %o', shortId, text)
-    await new Promise(resolve => setTimeout(resolve, 2000));  // Sleep
-    debug('Save on %o done; text: %o', shortId, text)
-    return `XXXXsha1sha1${shortId}`
 }
 
 ////////////////////////// Ancillary functions ///////////////////////////

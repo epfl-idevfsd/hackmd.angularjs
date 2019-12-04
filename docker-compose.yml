@@ -31,8 +31,9 @@ services:
     image: epflidevfsd/codimd-syncer
     environment:
       - DB_URL=postgres://codimd:${POSTGRES_PASSWORD}@postgres/codimd
+      - DEBUG=syncer
     volumes:
-      - ./:/home/work:rw
+      - ./:/markdown:rw
 volumes:
   database-data: {}
   upload-data: {}
