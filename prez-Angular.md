@@ -13,7 +13,7 @@ slideOptions:
 
 # Demandez le programme...
 
-<!-- .slide: data-opacity="partial" data-background="/uploads/upload_01f72874aa7fabff68275ee0e8ff3bb0.png" -->
+<!-- .slide: data-background="/uploads/upload_01f72874aa7fabff68275ee0e8ff3bb0.png" -->
 
 - AngularJS par la pratique <!-- .element: class="fragment" data-fragment-index="1" -->
 - Programme / courbe d'apprentissage <!-- .element: class="fragment" -->
@@ -26,7 +26,7 @@ slideOptions:
 
 # On plonge !
 
-<!-- .slide: data-opacity="partial" data-background="/uploads/upload_b3ddda2b449c1f972b630f70cc139edb.png" -->
+<!-- .slide: data-background="/uploads/upload_b3ddda2b449c1f972b630f70cc139edb.png" -->
 
 
 | Si vous aimez... | vous aimerez...                           |
@@ -43,17 +43,118 @@ slideOptions:
 Vous connaissez la musique...
 ![Je saisis mon prénom, l'affichage se met à jour](/uploads/upload_c5ee461f0a1dcc7a9705c8e8938ef1d3.gif)
 
+----
+
+# Exercice 1
+
+<div style="text-align: center; font-size: 400%;"><p>💡</p></div>
+
+- Commencer par la vue «mock» (avec le HTML souhaité, mais aucun comportement)
+- Pas besoin de `<form>`
+
+----
+
+# Exercice 1
+
+
+«Moustacher» le mot `Angular` de `Hello, Angular` depuis une variable d'instance du contrôleur.
+
+![](/uploads/upload_e5d0b06ebbf9b3a01ae5197dc45ec07d.gif) <!-- .element: style="float: right; width: 50%; " -->
+:hammer_and_wrench: Avec Chrome et [Augury](https://chrome.google.com/webstore/detail/augury/elgalmkoelokbchhkhacckoklkejnhcd?hl=fr), c'est suffisant pour bidouiller «à la main» :
+
+----
+
+# Exercice 1
+
+**[Google est votre ami](https://www.google.com/search?q=angular+input+change+event).**
+
+```html
+<input type="text" (input)="console.log('bah!')">
+```
+<!-- .element: class="fragment" data-fragment-index="1" -->
+
+... Mais Angular ? Pas toujours. <!-- .element: class="fragment" data-fragment-index="2" -->
+```javascript
+@Component{...}
+export class AppComponent {
+    console = window.console
+}
+```
+<!-- .element: class="fragment" data-fragment-index="2" -->
+
+----
+
+# Exercice 1
+
+Comment savoir quoi mettre dans `(input)="..."` ?
+
+**Le débogueur du navigateur est aussi votre ami.**
+
+```html
+<input type="text" (input)="inputChanged()">
+```
+
+```javascript
+@Component{...}
+export class AppComponent {
+    inputChanged() {
+        debugger;
+    }
+}
+```
+
+----
+
+# Exercice 1
+
+<div style="text-align: center; font-size: 400%;"><p>💡</p></div>
+
+**Tous les «tuyaux» vus pour l'exercice 1 restent valables dans la vraie vie.**
+
+- Division du travail (HTML, CSS, JS)
+- Buts intermédiaires
+- Outillage : débogueur du navigateur + Augury
 
 ---
 
-# Visite guidée
+# Exercice 1 : solution
+
+https://stackblitz.com/edit/epfl-angular-exercice1
+
+---
+
+<!-- .slide: data-background="/uploads/upload_5a8a5c9fa3ab182eb1dbc71172eb0d2f.png" 
+data-separator-notes="^Notes:" -->
 
 
+# Exercice 1 : décortiquage
 
-| Le framewor | Column 2 | Column 3 |
-| Text     | Text     | Text     |
+Note:
+- app.component.ts : le `Component`
+- app.module.ts : I is serious framwerk. I haz modules.
+- Une brève plongée dans les *templates* et les événements
 
+---
 
+# Exercice 2
+
+refactorer pour créer `HelloComponent`
+
+```js
+<h1>Hello, {{ name }}!</h1>
+```
+
+Pour le ~~JavaScript~~ TypeScript, à vous de jouer !
+
+----
+
+# Exercice 2 : solution
+
+Si vous aviez deviné que la solution serait à l'adresse <!-- .element: class="fragment" data-fragment-index="1" -->
+
+https://stackblitz.com/edit/epfl-angular-exercice2
+
+... alors vous avez gagné ! <!-- .element: class="fragment" data-fragment-index="1" -->
 
 
 <!-- 
@@ -104,11 +205,9 @@ Vous connaissez la musique...
     float: none!important;
   }
 
-  .reveal [data-opacity] > div {
+  .reveal [data-background] > div {
     background-color: #ffffff94;
     border-radius: 20px;
-  }
-  .reveal [data-opacity] {
   }
 
   .reveal [data-opacity="full"] > div {
