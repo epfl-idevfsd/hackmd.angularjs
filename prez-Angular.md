@@ -133,6 +133,7 @@ Note:
 - app.component.ts : le `Component`
 - app.module.ts : I is serious framwerk. I haz modules.
 - Une brève plongée dans les *templates* et les événements
+- Les dépendances dans `package.json`, et en particulier les `@types`
 
 ---
 
@@ -156,6 +157,24 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 ... alors vous avez gagné ! <!-- .element: class="fragment" data-fragment-index="1" -->
 
+---
+
+# Fin de l'étape
+
+<!-- .slide: data-background="/uploads/upload_499143d421216cb3a57986c10f2815be.png" -->
+
+- Révisions JS (`npm`, ES2015, `import` / `export`)
+- TypeScript : types... et décorateurs
+- Angular : *templates*, événements... Et bien plus encore !
+
+---
+
+# Tests avec *protractor*
+
+<!-- .slide: data-background="/uploads/upload_1b693cd34f87fd89f8f7373cc4b62e12.png" -->
+
+`ng test`
+<!-- .element: class="huge fragment" -->
 
 <!-- 
   If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px; 
@@ -212,5 +231,13 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
   .reveal [data-opacity="full"] > div {
     background-color: white;
+  }
+    
+  .reveal .huge.fragment {
+    font-size: 400%;
+    padding-bottom: 0.5em;
+      code {
+        background-color: white;     
+      }
   }
 </style>
