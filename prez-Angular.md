@@ -11,14 +11,15 @@ slideOptions:
     enabled: true
 ---
 
-<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_d2f9bfe701c518fed2adf0acc92d7a44.png" -->
+<!-- .slide: data-slide-id="home" data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_d2f9bfe701c518fed2adf0acc92d7a44.png" data-opacity="over9k" -->
 
-# Workshop IDEV Angular.js 8
+# Workshop IDEV
+
+## Angular.js 8
 
 ![](https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg) <!-- .element: id="angular-splash-logo" class="logo" -->
 
-## Décembre 2019
-
+Décembre 2019
 
 ## [go/workshop-angular](https://go.epfl.ch/workshop-angular)
 
@@ -249,6 +250,9 @@ Note:
     background-color: #ffffff94;
     border-radius: 20px;
   }
+  .reveal [data-opacity="over9k"] > div {
+    background-color: #fffffff0;
+  }
   .reveal [data-opacity="full"] > div {
     background-color: white;
   }
@@ -264,6 +268,12 @@ Note:
   #telegram-qrcode {
       max-width: 40%;
       border: none;
+  }
+  .reveal [data-slide-id="home"] p, .reveal [data-slide-id="home"] img {
+      margin: unset;
+  }
+  .reveal [data-slide-id="home"] img {
+      max-width: 30%;
   }
   .reveal .huge.fragment {
     font-size: 400%;
