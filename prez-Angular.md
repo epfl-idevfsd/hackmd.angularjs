@@ -258,15 +258,12 @@ Note:
       background: none;
   }
   .reveal section img.inline.logo {
-      max-width: 40pt;
+      max-width: 60pt;
       margin: unset;
   }
   #telegram-qrcode {
       max-width: 40%;
       border: none;
-  }
-  #protractor-logo img {
-    max-width: 40pt;
   }
   .reveal .huge.fragment {
     font-size: 400%;
