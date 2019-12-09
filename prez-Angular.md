@@ -84,7 +84,7 @@ Vous connaissez la musique...
 «Moustacher» le mot `Angular` de `Hello, Angular` depuis une variable d'instance du contrôleur.
 
 ![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_e5d0b06ebbf9b3a01ae5197dc45ec07d.gif) <!-- .element: style="float: right; width: 50%; " -->
-:hammer_and_wrench: Avec Chrome et [Augury](https://chrome.google.com/webstore/detail/augury/elgalmkoelokbchhkhacckoklkejnhcd?hl=fr), c'est suffisant pour bidouiller «à la main» :
+:wrench: Avec Chrome et [Augury](https://chrome.google.com/webstore/detail/augury/elgalmkoelokbchhkhacckoklkejnhcd?hl=fr), c'est suffisant pour bidouiller «à la main» :
 
 ----
 
