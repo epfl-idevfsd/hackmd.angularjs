@@ -11,7 +11,7 @@ slideOptions:
     enabled: true
 ---
 
-<!-- .slide: data-background="/uploads/upload_d2f9bfe701c518fed2adf0acc92d7a44.png" -->
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_d2f9bfe701c518fed2adf0acc92d7a44.png" -->
 
 # Workshop IDEV Angular.js 8
 
@@ -29,7 +29,7 @@ slideOptions:
 
 Tous les garçons cool l'ont !
 
-<!-- .slide: data-background="/uploads/upload_ec5322e51681d13ba3d9b47198b3b236.png" -->
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_ec5322e51681d13ba3d9b47198b3b236.png" -->
 
 ![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_05bcc1745e405bddd044be4c00c57262.png) <!-- .element: id="telegram-qrcode" -->
 
