@@ -31,7 +31,7 @@ Tous les garçons cool l'ont !
 
 <!-- .slide: data-background="/uploads/upload_ec5322e51681d13ba3d9b47198b3b236.png" -->
 
-![](/uploads/upload_05bcc1745e405bddd044be4c00c57262.png) <!-- .element: id="telegram-qrcode" -->
+![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_05bcc1745e405bddd044be4c00c57262.png) <!-- .element: id="telegram-qrcode" -->
 
 
 ---
