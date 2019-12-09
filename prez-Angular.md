@@ -231,12 +231,25 @@ describe('AppComponent', () => {
 <mark>describe</mark>(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
   <span class="hljs-comment">// ...</span>
   <mark>it</mark>(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+    <span class="hljs-comment">// ...</span>
   })
 })
 </code></pre>
 
-<code><mark>describe</mark></code>, <code><mark>it</mark></code> ← le BDD de [Jasmine](https://jasmine.github.io/) <!-- .element: class="fragment" --> ![Jasmine logo](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_0875a6880fd79a26b5a02af4117901da.png) <!-- .element: class="inline logo" -->
+<p class="fragment"><code><mark>describe</mark></code>, <code><mark>it</mark></code> ← le BDD de <a href="https://jasmine.github.io/">Jasmine</a> <img alt="Jasmine logo" src="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_0875a6880fd79a26b5a02af4117901da.png" class="inline logo"></p>
 
+----
+
+<pre><code class="javascript hljs"><span class="hljs-comment">// ...</span>
+describe(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
+  <span class="hljs-comment">// ...</span>
+  <mark>it.only</mark>(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+        <span class="hljs-comment">// ...</span>
+  })
+})
+</code></pre>
+
+<p class="fragment">💡 <code><mark>describe.only</mark></code> existe également</p>
 
 ----
 
@@ -284,10 +297,11 @@ describe(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
   })
 </code></pre>
 
-- <code><mark>fixture</mark></code> <!-- .element: class="fragment" data-fragment-index="1" -->
-- <code>fixture.<mark>nativeElement</mark></code> <!-- .element: class="fragment" data-fragment-index="2" -->
-- <code>fixture.nativeElement.<mark>querySelector</mark></code> <!-- .element: class="fragment" data-fragment-index="3" -->
-
+<ul>
+    <li class="fragment" data-fragment-index="1"><code><mark>fixture</mark></code></li>
+    <li class="fragment" data-fragment-index="2"><code>fixture.<mark>nativeElement</mark></code></li>
+    <li class="fragment" data-fragment-index="3"><img src="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png" class="inline logo" alt="MDN logo"><a href= "https://developer.mozilla.org/en-US/search?q=dispatchEvent">MDN</a> est votre ami aussi</li>
+</ul>
 
 ----
 
@@ -306,7 +320,6 @@ describe(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
 })
 </code></pre>
 
-<img src="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png" class="inline logo"> [MDN](https://developer.mozilla.org/en-US/search?q=dispatchEvent) est votre ami aussi
 
 Note:
 Le fait que nous utilisons les API MDN rend la compatibilité des tests sous IE / Edge nettement plus... hasardeuse ? À vrai dire je n'en sais rien, nous sommes quand même en 2019.
