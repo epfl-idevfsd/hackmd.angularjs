@@ -234,11 +234,9 @@ Note:
   img[alt$=">"] {
     float: right;
   }
-
   img[alt$="<"] {
     float: left;
   }
-
   img[alt$="><"] {
     display: block;
     max-width: 100%;
@@ -246,16 +244,13 @@ Note:
     margin: auto;
     float: none!important;
   }
-
   .reveal [data-background] > div {
     background-color: #ffffff94;
     border-radius: 20px;
   }
-
   .reveal [data-opacity="full"] > div {
     background-color: white;
   }
-
   .reveal .telegram {
       border: none;
   }
@@ -264,17 +259,14 @@ Note:
       box-shadow: none;
       margin: unset;
   }
-
   .reveal section .telegram.qrcode {
       max-width: 40%;
   }
-
   .reveal .huge.fragment {
     font-size: 400%;
     padding-bottom: 0.5em;
-      code {
-        background-color: white;
-      }
   }
-
+  .reveal .huge.fragment code {
+    background-color: white;
+  }
 </style>
