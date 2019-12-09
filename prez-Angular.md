@@ -15,7 +15,7 @@ slideOptions:
 
 ## Angular.js 8
 
-![](https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg) <!-- .element: id="angular-splash-logo" class="logo" -->
+![logo Angular](https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg) <!-- .element: id="angular-splash-logo" class="logo" -->
 
 Décembre 2019
 
@@ -191,7 +191,7 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 ---
 
-# Tests avec <br/>![](https://angular.io/generated/images/marketing/concept-icons/protractor.svg)<!-- .element: class="inline logo" --> Protractor
+# Tests avec <br/>![Protractor logo](https://angular.io/generated/images/marketing/concept-icons/protractor.svg)<!-- .element: class="inline logo" --> Protractor
 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_1b693cd34f87fd89f8f7373cc4b62e12.png" -->
 
@@ -387,6 +387,18 @@ describe('AppComponent', () => {
   })
 })
 ```
+
+---
+
+# Fin de l'étape
+
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_54fa49c79b3f08f63619024439f006f5.png" -->
+
+- <img src="https://angular.io/generated/images/marketing/concept-icons/protractor.svg" alt="logo Protractor" class="inline logo"> Protractor
+- <img src="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_0875a6880fd79a26b5a02af4117901da.png" alt="logo Jasmine" class="inline logo"> Jasmine et le BDD
+- <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg" alt="logo Angular" class="inline logo">Le mécanisme¹ de détection des changements
+
+ <p class="fragment">¹ Ou plus précisément, son absence</p>
 
 <!--
   If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px;
