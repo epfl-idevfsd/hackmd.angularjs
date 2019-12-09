@@ -11,6 +11,29 @@ slideOptions:
     enabled: true
 ---
 
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_d2f9bfe701c518fed2adf0acc92d7a44.png" -->
+
+# Workshop IDEV Angular.js 8
+
+## Décembre 2019
+
+
+## [go/workshop-angular](https://go.epfl.ch/workshop-angular)
+
+---
+
+# Telegram ![](https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg) <!-- .element: class="telegram logo" -->
+
+
+Tous les garçons cool l'ont !
+
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_ec5322e51681d13ba3d9b47198b3b236.png" -->
+
+![](/uploads/upload_05bcc1745e405bddd044be4c00c57262.png) <!-- .element: class="telegram qrcode" -->
+
+
+---
+
 # Demandez le programme...
 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_01f72874aa7fabff68275ee0e8ff3bb0.png" -->
@@ -18,8 +41,6 @@ slideOptions:
 - AngularJS par la pratique <!-- .element: class="fragment" data-fragment-index="1" -->
 - Programme / courbe d'apprentissage <!-- .element: class="fragment" -->
 - The occasional diatribe <!-- .element: class="fragment" -->
-
-[go/workshop-angular](https://go.epfl.ch/workshop-angular) <!-- .element: class="fragment" -->
 
 
 ---
@@ -176,6 +197,10 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 `ng test`
 <!-- .element: class="huge fragment" -->
 
+Note:
+- À présent chacun doit installer Angular sur son laptop, si pas déjà fait
+- 
+
 <!--
   If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px;
 -->
@@ -185,9 +210,7 @@ https://stackblitz.com/edit/epfl-angular-exercice2
     background-image: url('https://epfl-idevelop.github.io/elements/svg/epfl-logo.svg');
     background-repeat: no-repeat;
     background-position: 5px 5px;
-  }
-  .reveal {
-    color: #707070;
+     color: #707070;
   }
   .reveal h1, .reveal h2, .reveal h3,
   .reveal h4, .reveal h5, .reveal h6 {
@@ -233,6 +256,19 @@ https://stackblitz.com/edit/epfl-angular-exercice2
     background-color: white;
   }
 
+  .reveal .telegram {
+      border: none;
+  }
+  .reveal section img.telegram.logo {
+      max-width: 40pt;
+      box-shadow: none;
+      margin: unset;
+  }
+
+  .reveal section .telegram.qrcode {
+      max-width: 40%;
+  }
+
   .reveal .huge.fragment {
     font-size: 400%;
     padding-bottom: 0.5em;
@@ -240,4 +276,5 @@ https://stackblitz.com/edit/epfl-angular-exercice2
         background-color: white;
       }
   }
+
 </style>
