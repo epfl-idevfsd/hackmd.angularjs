@@ -11,9 +11,11 @@ slideOptions:
     enabled: true
 ---
 
-<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_d2f9bfe701c518fed2adf0acc92d7a44.png" -->
+<!-- .slide: data-background="/uploads/upload_d2f9bfe701c518fed2adf0acc92d7a44.png" -->
 
 # Workshop IDEV Angular.js 8
+
+![](https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg) <!-- .element: id="angular-splash-logo" class="logo" -->
 
 ## Décembre 2019
 
@@ -22,14 +24,14 @@ slideOptions:
 
 ---
 
-# Telegram ![](https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg) <!-- .element: class="telegram logo" -->
+# Telegram ![](https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg) <!-- .element: class="inline logo" -->
 
 
 Tous les garçons cool l'ont !
 
-<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_ec5322e51681d13ba3d9b47198b3b236.png" -->
+<!-- .slide: data-background="/uploads/upload_ec5322e51681d13ba3d9b47198b3b236.png" -->
 
-![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_05bcc1745e405bddd044be4c00c57262.png) <!-- .element: class="telegram qrcode" -->
+![](/uploads/upload_05bcc1745e405bddd044be4c00c57262.png) <!-- .element: id="telegram-qrcode" -->
 
 
 ---
@@ -190,7 +192,7 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 ---
 
-# Tests avec *protractor*
+# Tests avec <br/>![](https://angular.io/generated/images/marketing/concept-icons/protractor.svg)<!-- .element: class="inline logo" --> Protractor
 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_1b693cd34f87fd89f8f7373cc4b62e12.png" -->
 
@@ -230,7 +232,6 @@ Note:
     background-color: rgba(255, 255, 255, 0.46);
     border-radius: 3px;
   }
-  /* https://stackoverflow.com/a/39614958/960623 */
   img[alt$=">"] {
     float: right;
   }
@@ -251,16 +252,21 @@ Note:
   .reveal [data-opacity="full"] > div {
     background-color: white;
   }
-  .reveal .telegram {
+  .reveal section .logo {
       border: none;
-  }
-  .reveal section img.telegram.logo {
-      max-width: 40pt;
       box-shadow: none;
+      background: none;
+  }
+  .reveal section img.inline.logo {
+      max-width: 40pt;
       margin: unset;
   }
-  .reveal section .telegram.qrcode {
+  #telegram-qrcode {
       max-width: 40%;
+      border: none;
+  }
+  #protractor-logo img {
+    max-width: 40pt;
   }
   .reveal .huge.fragment {
     font-size: 400%;
