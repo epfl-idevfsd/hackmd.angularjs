@@ -298,9 +298,10 @@ describe(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
 </code></pre>
 
 <ul>
-    <li class="fragment" data-fragment-index="1"><code><mark>fixture</mark></code></li>
-    <li class="fragment" data-fragment-index="2"><code>fixture.<mark>nativeElement</mark></code></li>
-    <li class="fragment" data-fragment-index="3"><img src="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png" class="inline logo" alt="MDN logo"><a href= "https://developer.mozilla.org/en-US/search?q=dispatchEvent">MDN</a> est votre ami aussi</li>
+    <li class="fragment"><code><mark>fixture</mark></code></li>
+    <li class="fragment"><code>fixture.<mark>nativeElement</mark></code></li>
+    <li class="fragment">... est un élément DOM</li>
+    <li class="fragment">... Donc <img src="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png" class="inline logo" alt="logo MDN"> <a href= "https://developer.mozilla.org/en-US/search?q=querySelector">MDN</a> est votre ami</li>
 </ul>
 
 ----
@@ -309,10 +310,10 @@ describe(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
   it(<span class="hljs-string">'updates the title'</span>, () =&gt; {
       <span class="hljs-keyword">const</span> fixture = TestBed.createComponent(AppComponent);
 
-      <span class="hljs-keyword">const</span> input = fixture.nativeElement.
-          querySelector(<span class="hljs-string">'input'</span>);
+      <span class="fragment"><span class="hljs-keyword">const</span> input = fixture.nativeElement.
+          querySelector(<span class="hljs-string">'input'</span>);</span>
 
-<mark>
+<mark class="fragment">
       input.value = <span class="hljs-string">'World'</span>;
       input.dispatchEvent(<span class="hljs-keyword">new</span> Event(<span class="hljs-string">'input'</span>));
 </mark>
