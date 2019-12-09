@@ -123,7 +123,7 @@ https://stackblitz.com/edit/epfl-angular-exercice1
 
 ---
 
-<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_5a8a5c9fa3ab182eb1dbc71172eb0d2f.png" 
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_5a8a5c9fa3ab182eb1dbc71172eb0d2f.png"
 data-separator-notes="^Notes:" -->
 
 
@@ -176,8 +176,8 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 `ng test`
 <!-- .element: class="huge fragment" -->
 
-<!-- 
-  If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px; 
+<!--
+  If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px;
 -->
 <style>
   .reveal {
@@ -189,7 +189,7 @@ https://stackblitz.com/edit/epfl-angular-exercice2
   .reveal {
     color: #707070;
   }
-  .reveal h1, .reveal h2, .reveal h3, 
+  .reveal h1, .reveal h2, .reveal h3,
   .reveal h4, .reveal h5, .reveal h6 {
     color: #212121;
   }
@@ -232,12 +232,12 @@ https://stackblitz.com/edit/epfl-angular-exercice2
   .reveal [data-opacity="full"] > div {
     background-color: white;
   }
-    
+
   .reveal .huge.fragment {
     font-size: 400%;
     padding-bottom: 0.5em;
       code {
-        background-color: white;     
+        background-color: white;
       }
   }
 </style>
