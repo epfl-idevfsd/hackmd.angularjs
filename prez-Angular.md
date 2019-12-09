@@ -197,13 +197,12 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_1b693cd34f87fd89f8f7373cc4b62e12.png" -->
 
-`ng test`
-<!-- .element: class="huge fragment" -->
+<p class="huge fragment"><code>ng test</code> <s class="fragment" data-fragment-id="2">☁️</s></p>
 
 Note:
 - À présent chacun doit installer Angular sur son laptop, si pas déjà fait
-- 
 
+--
 <!--
   If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px;
 -->
