@@ -200,6 +200,14 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 Note:
 - À présent chacun doit installer Angular sur son laptop, si pas déjà fait
 
+---
+
+# Exercice 3
+
+Pré-requis : `ng test` est «vrai rouge» (pas de crash)
+
+→ Si nécessaire, se resynchroniser depuis [go/workshop-angular-exercices](https://go.epfl.ch/workshop-angular-exercices)
+
 ----
 
 # Exercice 3
@@ -396,9 +404,10 @@ describe('AppComponent', () => {
 
 - <img src="https://angular.io/generated/images/marketing/concept-icons/protractor.svg" alt="logo Protractor" class="inline logo"> Protractor
 - <img src="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_0875a6880fd79a26b5a02af4117901da.png" alt="logo Jasmine" class="inline logo"> Jasmine et le BDD
+- <img src="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png" class="inline logo" alt="logo MDN"> L'API du DOM selon Mozilla
 - <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg" alt="logo Angular" class="inline logo">Le mécanisme¹ de détection des changements
 
- <p class="fragment">¹ Ou plus précisément, son absence</p>
+<p class="fragment">¹ Ou plus précisément, son absence</p>
 
 <!--
   If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px;
