@@ -409,6 +409,18 @@ describe('AppComponent', () => {
 
 <p class="fragment">¹ Ou plus précisément, son absence</p>
 
+---
+
+# Quelques derniers conseils...
+
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/Minerva-McGonagall-Wallpaper-hogwarts-professors-32797113-1024-768.jpg" -->
+
+
+
+
+- **Ne vous éloignez pas trop des sentiers battus !** Votre app risquerait (par exemple) [de ne plus compiler en prod'](https://github.com/angular/angular/issues/13590)
+- Malgré cela, **attendez-vous à des changements incompatibles** (ex : adoption de `async` / `await` et Puppeteer dans Protractor)
+
 <!--
   If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px;
 -->
