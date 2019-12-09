@@ -13,7 +13,7 @@ slideOptions:
 
 # Demandez le programme...
 
-<!-- .slide: data-background="/uploads/upload_01f72874aa7fabff68275ee0e8ff3bb0.png" -->
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_01f72874aa7fabff68275ee0e8ff3bb0.png" -->
 
 - AngularJS par la pratique <!-- .element: class="fragment" data-fragment-index="1" -->
 - Programme / courbe d'apprentissage <!-- .element: class="fragment" -->
@@ -26,7 +26,7 @@ slideOptions:
 
 # On plonge !
 
-<!-- .slide: data-background="/uploads/upload_b3ddda2b449c1f972b630f70cc139edb.png" -->
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_b3ddda2b449c1f972b630f70cc139edb.png" -->
 
 
 | Si vous aimez... | vous aimerez...                           |
@@ -41,7 +41,7 @@ slideOptions:
 # Exercice 1 : “Hello world”
 
 Vous connaissez la musique...
-![Je saisis mon prénom, l'affichage se met à jour](/uploads/upload_c5ee461f0a1dcc7a9705c8e8938ef1d3.gif)
+![Je saisis mon prénom, l'affichage se met à jour](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_c5ee461f0a1dcc7a9705c8e8938ef1d3.gif)
 
 ----
 
@@ -59,7 +59,7 @@ Vous connaissez la musique...
 
 «Moustacher» le mot `Angular` de `Hello, Angular` depuis une variable d'instance du contrôleur.
 
-![](/uploads/upload_e5d0b06ebbf9b3a01ae5197dc45ec07d.gif) <!-- .element: style="float: right; width: 50%; " -->
+![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_e5d0b06ebbf9b3a01ae5197dc45ec07d.gif) <!-- .element: style="float: right; width: 50%; " -->
 :hammer_and_wrench: Avec Chrome et [Augury](https://chrome.google.com/webstore/detail/augury/elgalmkoelokbchhkhacckoklkejnhcd?hl=fr), c'est suffisant pour bidouiller «à la main» :
 
 ----
@@ -123,7 +123,7 @@ https://stackblitz.com/edit/epfl-angular-exercice1
 
 ---
 
-<!-- .slide: data-background="/uploads/upload_5a8a5c9fa3ab182eb1dbc71172eb0d2f.png" 
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_5a8a5c9fa3ab182eb1dbc71172eb0d2f.png" 
 data-separator-notes="^Notes:" -->
 
 
@@ -161,7 +161,7 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 # Fin de l'étape
 
-<!-- .slide: data-background="/uploads/upload_499143d421216cb3a57986c10f2815be.png" -->
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_499143d421216cb3a57986c10f2815be.png" -->
 
 - Révisions JS (`npm`, ES2015, `import` / `export`)
 - TypeScript : types... et décorateurs
@@ -171,7 +171,7 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 # Tests avec *protractor*
 
-<!-- .slide: data-background="/uploads/upload_1b693cd34f87fd89f8f7373cc4b62e12.png" -->
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_1b693cd34f87fd89f8f7373cc4b62e12.png" -->
 
 `ng test`
 <!-- .element: class="huge fragment" -->
