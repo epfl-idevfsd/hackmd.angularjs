@@ -7,8 +7,6 @@ lang: fr
 slideOptions:
   transition: fade
   theme: white
-  spotlight:
-    enabled: true
 ---
 
 <!-- .slide: data-slide-id="home" data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_d2f9bfe701c518fed2adf0acc92d7a44.png" data-opacity="over9k" -->
