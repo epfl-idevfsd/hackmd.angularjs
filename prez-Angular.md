@@ -202,7 +202,180 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 Note:
 - À présent chacun doit installer Angular sur son laptop, si pas déjà fait
 
---
+----
+
+# Exercice 3
+
+## `app.component.spec.ts`
+
+```javascript
+// ...
+describe('AppComponent', () => {
+  // ...
+  it('updates the title', () => {
+  })
+})
+```
+
+----
+
+## `app.component.spec.ts`
+
+<!-- HTML laborieusement copié-collé depuis le rendu du slide
+     ci-dessus, parce que extras.js de codimd insiste pour prendre
+     le contrôle de hljs (et en passant, exiger de travailler sur
+     le innerHTML du <code> et donc se viander sur les chevrons),
+     plutôt que de laisser Reveal.js s'en charger (auquel cas,
+     selon la documentation, on pourrait utiliser du balisage sous
+     un <pre>, sans empêcher le parseur de faire son travail !!)
+ -->
+<pre><code class="javascript hljs"><span class="hljs-comment">// ...</span>
+<mark>describe</mark>(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
+  <span class="hljs-comment">// ...</span>
+  <mark>it</mark>(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+  })
+})
+</code></pre>
+
+<code><mark>describe</mark></code>, <code><mark>it</mark></code> ← le BDD de [Jasmine](https://jasmine.github.io/) <!-- .element: class="fragment" --> ![Jasmine logo](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_0875a6880fd79a26b5a02af4117901da.png) <!-- .element: class="inline logo" -->
+
+
+----
+
+<pre><code class="javascript hljs"><span class="hljs-comment">// ...</span>
+describe(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
+  <span class="hljs-comment">// ...</span>
+  it(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+    <mark><span class="hljs-keyword">const</span> fixture = TestBed.createComponent(AppComponent);</mark>
+  })
+})
+</code></pre>
+
+<img src="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_2aaeeab7acd8c8daeb29505ffb6db89e.png" alt="Cargo cult" id="cargo-cult">
+
+----
+
+<pre><code class="javascript hljs"><span class="hljs-comment">// ...</span>
+describe(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
+  <span class="hljs-comment">// ...</span>
+  it(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> fixture = TestBed.createComponent(AppComponent);
+
+    <mark><span class="hljs-keyword">const</span> input = fixture.nativeElement.
+          querySelector(<span class="hljs-string">'input'</span>);</mark>
+    <span class="hljs-comment">// ...</span>
+  })
+})
+</code></pre>
+
+----
+
+# ... Wait wat ?
+
+![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_e7039a60a46f4d52f4c9771e186a9527.png)
+
+
+----
+
+<pre><code class="javascript hljs">
+  it(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+      <span class="hljs-keyword">const</span> fixture = TestBed.createComponent(AppComponent);
+
+      <mark>debugger;</mark>
+      <span class="hljs-comment">// ...</span>
+  })
+</code></pre>
+
+- <code><mark>fixture</mark></code> <!-- .element: class="fragment" data-fragment-index="1" -->
+- <code>fixture.<mark>nativeElement</mark></code> <!-- .element: class="fragment" data-fragment-index="2" -->
+- <code>fixture.nativeElement.<mark>querySelector</mark></code> <!-- .element: class="fragment" data-fragment-index="3" -->
+
+
+----
+
+<pre><code>
+  it(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+      <span class="hljs-keyword">const</span> fixture = TestBed.createComponent(AppComponent);
+
+      <span class="hljs-keyword">const</span> input = fixture.nativeElement.
+          querySelector(<span class="hljs-string">'input'</span>);
+
+<mark>
+      input.value = <span class="hljs-string">'World'</span>;
+      input.dispatchEvent(<span class="hljs-keyword">new</span> Event(<span class="hljs-string">'input'</span>));
+</mark>
+      <span class="hljs-comment">// ...</span>
+})
+</code></pre>
+
+<img src="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png" class="inline logo"> [MDN](https://developer.mozilla.org/en-US/search?q=dispatchEvent) est votre ami aussi
+
+Note:
+Le fait que nous utilisons les API MDN rend la compatibilité des tests sous IE / Edge nettement plus... hasardeuse ? À vrai dire je n'en sais rien, nous sommes quand même en 2019.
+
+----
+
+<pre><code class="javascript hljs">  it(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> fixture = TestBed.createComponent(AppComponent);
+
+    <span class="hljs-keyword">const</span> input = fixture.nativeElement.
+          querySelector(<span class="hljs-string">'input'</span>) <span class="hljs-keyword">as</span> HTMLInputElement;
+    input.value = <span class="hljs-string">'World'</span>;
+    input.dispatchEvent(<span class="hljs-keyword">new</span> Event(<span class="hljs-string">'input'</span>));
+
+    <span class="hljs-comment">// ...</span>
+
+    <mark>expect</mark>(fixture.nativeElement.
+           querySelector(<span class="hljs-string">'h1'</span>).textContent).<mark>toContain</mark>(<span class="hljs-string">'World'</span>);
+  })
+</code></pre>
+
+<code><mark>expect</mark></code>, <code><mark>toContain</mark></code> ← moar [Jasmine](https://jasmine.github.io/) ![Jasmine logo](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_0875a6880fd79a26b5a02af4117901da.png) <!-- .element: class="inline logo" -->
+
+----
+
+<pre>
+<code class="javascript hljs" id="protractor-derniere-etape">
+      <mark>// ...</mark>    // ???
+
+</code></pre>
+
+----
+
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_99c5817047ffe771e0f5e77abb863de1.png" -->
+
+<pre>
+<code class="javascript hljs" id="protractor-derniere-etape">
+      <mark>fixture.detectChanges();</mark>
+
+</code></pre>
+
+----
+
+# Pour finir...
+
+## [go/workshop-angular-exercices](https://go.epfl.ch/workshop-angular-exercices)<!-- .element: class="fragment" -->
+
+```javascript
+// ...
+describe('AppComponent', () => {
+  // ...
+  it('updates the title', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+
+    const input = fixture.nativeElement.
+          querySelector('input') as HTMLInputElement;
+    input.value = 'World';
+    input.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.
+           querySelector('h1').textContent).toContain('World');
+  })
+})
+```
+
 <!--
   If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px;
 -->
@@ -232,6 +405,10 @@ Note:
     background-color: rgba(255, 255, 255, 0.46);
     border-radius: 3px;
   }
+    .reveal code mark {
+        font-weight: bold;
+        background-color: yellow;
+    }
   img[alt$=">"] {
     float: right;
   }
@@ -280,5 +457,11 @@ Note:
   }
   .reveal .huge.fragment code {
     background-color: white;
+  }
+  #cargo-cult {
+    max-width: 60%;
+  }
+  #protractor-derniere-etape {
+     font-size: 200%;
   }
 </style>
