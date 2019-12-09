@@ -187,9 +187,9 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_499143d421216cb3a57986c10f2815be.png" -->
 
-- Révisions JS (`npm`, ES2015, `import` / `export`)
-- TypeScript : types... et décorateurs
-- Angular : *templates*, événements... Et bien plus encore !
+-  ![](https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg) <!-- .element: class="inline logo" -->  Révisions JS (`npm`, ES2015, `import` / `export`)
+- ![](https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-icon.svg) <!-- .element: class="inline logo" --> TypeScript : types... et décorateurs
+- ![](https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg) <!-- .element: class="inline logo" --> Angular : *templates*, événements... Et bien plus encore !
 
 ---
 
