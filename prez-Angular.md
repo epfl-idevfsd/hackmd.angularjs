@@ -51,11 +51,12 @@ Tous les garçons cool l'ont !
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_b3ddda2b449c1f972b630f70cc139edb.png" -->
 
 
-| Si vous aimez... | vous aimerez...                           |
-| ---------------- | ----------------------------------------- |
-| ☁️ les nuages ☁️ | [stackblitz.com](https://stackblitz.com/) |
-| Votre laptop     | [cli.angular.io](https://cli.angular.io/) |
-| Emacs            | `M-x package-install` ⏎ <br/> `tide` ⏎         |
+| Si vous aimez...      | vous aimerez...                           |
+| --------------------- | ----------------------------------------- |
+| ☁️ les nuages ☁️      | [stackblitz.com](https://stackblitz.com/) |
+| Votre laptop          | [node.js](https://nodejs.org/en/download/package-manager/) + [cli.angular.io](https://cli.angular.io/) |
+| Emacs                 | `M-x package-install` ⏎ <br/> `tide` ⏎    |
+| ... vous ne savez pas | Essayez <img alt="logo Visual Studio Code" src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" class="inline logo"> [Visual Studio Code](https://code.visualstudio.com/download)                                         |
 
 
 ---
@@ -416,6 +417,14 @@ describe('AppComponent', () => {
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/Minerva-McGonagall-Wallpaper-hogwarts-professors-32797113-1024-768.jpg" -->
 
 
+
+- **Peaufinez vos recherches sur Google** ("2019", "Angular 7", "Angular 8")
+
+----
+
+# Quelques derniers conseils...
+
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/Minerva-McGonagall-Wallpaper-hogwarts-professors-32797113-1024-768.jpg" -->
 
 
 - **Ne vous éloignez pas trop des sentiers battus !** Votre app risquerait (par exemple) [de ne plus compiler en prod'](https://github.com/angular/angular/issues/13590)
