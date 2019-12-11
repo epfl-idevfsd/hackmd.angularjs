@@ -196,7 +196,7 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_1b693cd34f87fd89f8f7373cc4b62e12.png" -->
 
-<p class="huge fragment"><code>ng test</code> <s class="fragment" data-fragment-id="2">☁️</s></p>
+<p class="huge fragment"><code>ng test</code> <img src="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/cloud-forbidden.svg?sanitize=true" alt="Interdit aux nuages" id="interdit-aux-nuages" class="inline logo fragment"></p>
 
 Note:
 - À présent chacun doit installer Angular sur son laptop, si pas déjà fait
@@ -494,6 +494,10 @@ describe('AppComponent', () => {
   .reveal section img.inline.logo {
       max-width: 60pt;
       margin: unset;
+  }
+  #interdit-aux-nuages {
+    vertical-align: text-bottom;
+    max-width: 200pt;
   }
   #telegram-qrcode {
       max-width: 40%;
