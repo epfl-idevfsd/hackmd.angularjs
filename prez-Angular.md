@@ -192,7 +192,7 @@ https://stackblitz.com/edit/epfl-angular-exercice2
 
 ---
 
-# Tests avec <br/>![Protractor logo](https://angular.io/generated/images/marketing/concept-icons/protractor.svg)<!-- .element: class="inline logo" --> Protractor
+# Tests avec <br/>![Karma logo](https://pascalprecht.github.io/full-spectrum-testing-slides/styles/karma-logo.svg)<!-- .element: class="logo" -->
 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_1b693cd34f87fd89f8f7373cc4b62e12.png" -->
 
@@ -356,7 +356,7 @@ Le fait que nous utilisons les API MDN rend la compatibilité des tests sous IE 
 ----
 
 <pre>
-<code class="javascript hljs" id="protractor-derniere-etape">
+<code class="javascript hljs" id="karma-derniere-etape">
       <mark>// ...</mark>    // ???
 
 </code></pre>
@@ -366,7 +366,7 @@ Le fait que nous utilisons les API MDN rend la compatibilité des tests sous IE 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_99c5817047ffe771e0f5e77abb863de1.png" -->
 
 <pre>
-<code class="javascript hljs" id="protractor-derniere-etape">
+<code class="javascript hljs" id="karma-derniere-etape-2">
       <mark>fixture.detectChanges();</mark>
 
 </code></pre>
@@ -403,7 +403,7 @@ describe('AppComponent', () => {
 
 <!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_54fa49c79b3f08f63619024439f006f5.png" -->
 
-- <img src="https://angular.io/generated/images/marketing/concept-icons/protractor.svg" alt="logo Protractor" class="inline logo"> Protractor
+- <img src="https://cdn.worldvectorlogo.com/logos/karma.svg" alt="logo Karma" class="inline logo">  Karma
 - <img src="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_0875a6880fd79a26b5a02af4117901da.png" alt="logo Jasmine" class="inline logo"> Jasmine et le BDD
 - <img src="https://developer.mozilla.org/static/img/opengraph-logo.72382e605ce3.png" class="inline logo" alt="logo MDN"> L'API du DOM selon Mozilla
 - <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Angular_full_color_logo.svg" alt="logo Angular" class="inline logo">Le mécanisme¹ de détection des changements
@@ -428,7 +428,7 @@ describe('AppComponent', () => {
 
 
 - **Ne vous éloignez pas trop des sentiers battus !** Votre app risquerait (par exemple) [de ne plus compiler en prod'](https://github.com/angular/angular/issues/13590)
-- Malgré cela, **attendez-vous à des changements incompatibles** (ex : adoption de `async` / `await` et Puppeteer dans Protractor)
+- Malgré cela, **attendez-vous à des changements incompatibles** (ex : adoption de `async` / `await` et Puppeteer pour les tests unitaires)
 
 <!--
   If you want/need a resizable background image, add the background-size: cover; property and change background-position: 0px 0px;
