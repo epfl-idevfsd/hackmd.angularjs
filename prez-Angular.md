@@ -540,6 +540,108 @@ Faisons une mini-app pour les tests manuels&nbsp;:
 [Solution](https://github.com/epfl-si/formation-angular.search-as-you-type/commit/185840ca661a89c0753ee4c64975cc3f39b17b18)
 
 
+----
+
+# Test ~~second~~ pas du tout
+
+<pre>
+it("shows results");
+</pre>
+
+... on passe pour l'instant.
+
+---
+
+# RxJS
+
+```javascript
+  search(value: string) {
+    console.log(value);  // TODO: peut mieux faire.
+  }
+```
+
+----
+
+# RxJS et les `Observable`s
+
+... et les `Subject`s
+
+```javascript
+import { Subject } from 'rxjs';
+// ...
+  private searchString = new Subject<string>();
+
+// ...
+  search(value: string) {
+    this.searchString.next(value);
+  }
+```
+
+![Marble diagram](/uploads/upload_7d708dd506c591285a2321d15a63f375.png)
+
+
+----
+
+# RxJS et les `Subscriptions`
+
+```javascript
+export class SearchAsYouTypeComponent implements OnInit {
+  // ...
+  ngOnInit() {
+    this.searchString.subscribe(console.log);
+  }
+
+}
+```
+
+----
+
+# RxJS et les fuites de mémoire
+
+```javascript
+import { debounceTime, tap } from 'rxjs/operators';
+// ...
+
+export class SearchAsYouTypeComponent implements OnInit {
+  // ... 
+
+  private searchString = new Subject<string>();
+  searchStringDebounced = searchString.pipe(
+      debounceTime(400),
+      tap(console.log)
+  );
+}
+```
+
+----
+
+# RxJS : au-delà de `console.log`
+
+<pre>.pipe()</pre>
+
+----
+
+```javascript
+import { tap, debounceTime,
+         distinctUntilChanged } from 'rxjs/operators';
+
+export class SearchAsYouTypeComponent implements OnInit {
+  searchStringDebounced = this.searchString.pipe(
+    debounceTime(400),
+    distinctUntilChanged(),
+    tap(console.log)
+  );
+}
+```
+
+🚑 [Le diff](https://github.com/epfl-si/formation-angular.search-as-you-type/compare/284224a..825aece)
+
+----
+
+... Plus rien.
+
+**Les `Observable`s sont paresseux.** Tant qu'on n'y `.subscribe()` pas, ils ne font rien.
+
 Note:
 - Parler de «marble testing» après avoir présenté RxJS
 
