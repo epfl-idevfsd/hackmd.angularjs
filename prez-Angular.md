@@ -447,92 +447,95 @@ describe('AppComponent', () => {
 
 
 <style>
-  .reveal {
-    background-color: #fff;
-    background-image: url('https://epfl-idevelop.github.io/elements/svg/epfl-logo.svg');
-    background-repeat: no-repeat;
-    background-position: 5px 5px;
-     color: #707070;
-  }
-  .reveal h1, .reveal h2, .reveal h3,
-  .reveal h4, .reveal h5, .reveal h6 {
-    color: #212121;
-  }
-  .reveal a {
-    color: #f009;
-  }
-  .reveal a:hover {
-    color: #f00;
-  }
-  .reveal code {
-    padding-top: 0.2em;
-    padding-bottom: 0.2em;
-    margin: 0;
-    font-size: 85%;
-    background-color: rgba(255, 255, 255, 0.46);
-    border-radius: 3px;
-  }
+    .reveal {
+        background-color: #fff;
+        background-image: url('https://epfl-idevelop.github.io/elements/svg/epfl-logo.svg');
+        background-repeat: no-repeat;
+        background-position: 5px 5px;
+        color: #707070;
+     }
+    .reveal h1, .reveal h2, .reveal h3,
+    .reveal h4, .reveal h5, .reveal h6 {
+        color: #212121;
+    }
+    .reveal a {
+        color: #f009;
+    }
+    .reveal a:hover {
+        color: #f00;
+    }
+    .reveal code {
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        margin: 0;
+        font-size: 85%;
+        background-color: rgba(255, 255, 255, 0.46);
+        border-radius: 3px;
+    }
     .reveal code mark {
         font-weight: bold;
         background-color: yellow;
     }
-  img[alt$=">"] {
-    float: right;
-  }
-  img[alt$="<"] {
-    float: left;
-  }
-  img[alt$="><"] {
-    display: block;
-    max-width: 100%;
-    height: auto;
-    margin: auto;
-    float: none!important;
-  }
-  .reveal [data-background] > div {
-    background-color: #ffffff94;
-    border-radius: 20px;
-  }
-  .reveal [data-opacity="over9k"] > div {
-    background-color: #fffffff0;
-  }
-  .reveal [data-opacity="full"] > div {
-    background-color: white;
-  }
-  .reveal section .logo {
-      border: none;
-      box-shadow: none;
-      background: none;
-  }
-  .reveal section img.inline.logo {
-      max-width: 60pt;
-      margin: unset;
-  }
-  #interdit-aux-nuages {
-    vertical-align: text-bottom;
-    max-width: 200pt;
-  }
-  #telegram-qrcode {
-      max-width: 40%;
-      border: none;
-  }
-  .reveal [data-slide-id="home"] p, .reveal [data-slide-id="home"] img {
-      margin: unset;
-  }
-  .reveal [data-slide-id="home"] img {
-      max-width: 30%;
-  }
-  .reveal .huge.fragment {
-    font-size: 400%;
-    padding-bottom: 0.5em;
-  }
-  .reveal .huge.fragment code {
-    background-color: white;
-  }
-  #cargo-cult {
-    max-width: 60%;
-  }
-  #protractor-derniere-etape {
-     font-size: 200%;
-  }
+    img[alt$=">"] {
+        float: right;
+    }
+    img[alt$="<"] {
+        float: left;
+    }
+    img[alt$="><"] {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: auto;
+        float: none!important;
+    }
+    .reveal [data-background] > div {
+        background-color: #ffffff94;
+        border-radius: 20px;
+    }
+    .reveal [data-opacity="over9k"] > div {
+        background-color: #fffffff0;
+    }
+    .reveal [data-opacity="full"] > div {
+        background-color: white;
+    }
+    .reveal section .logo {
+        border: none;
+        box-shadow: none;
+        background: none;
+    }
+    .reveal section img.inline.logo {
+        max-width: 60pt;
+        margin: unset;
+    }
+    #interdit-aux-nuages {
+        vertical-align: text-bottom;
+        max-width: 200pt;
+    }
+    #telegram-qrcode {
+        max-width: 40%;
+        border: none;
+    }
+    .reveal [data-slide-id="home"] p, .reveal [data-slide-id="home"] img {
+        margin: unset;
+    }
+    .reveal [data-slide-id="home"] img {
+        max-width: 30%;
+    }
+    .reveal .huge.fragment {
+        font-size: 400%;
+        padding-bottom: 0.5em;
+    }
+    .reveal .huge.fragment code {
+        background-color: white;
+    }
+    #cargo-cult {
+        max-width: 60%;
+    }
+    #karma-derniere-etape {
+        font-size: 200%;
+    }
+    #logs-jquery-desordre {
+        max-width: 50%;
+    }
 </style>
