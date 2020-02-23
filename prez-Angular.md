@@ -444,7 +444,19 @@ describe('AppComponent', () => {
     <li class="fragment"><img alt="logo RxJS" src="https://rxjs-dev.firebaseapp.com/generated/images/marketing/home/Rx_Logo-512-512.png" class="inline logo"> RxJS</li>
 </ul>
 
+----
 
+# Exercice 4
+
+[stackblitz.com/edit/epfl-angular-exercice4-jquery](https://stackblitz.com/edit/epfl-angular-exercice4-jquery)
+
+----
+
+# Exercice 4
+
+<img alt="Logs d'arrivée des réponses dans le désordre" src="/uploads/upload_4b1e2e9d198f7018bfc3476ce185b066.png" id="logs-jquery-desordre">
+
+... Ça ne marche pas très bien
 
 <style>
     .reveal {
