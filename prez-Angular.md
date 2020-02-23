@@ -542,13 +542,11 @@ Faisons une mini-app pour les tests manuels&nbsp;:
 
 ----
 
-# Test ~~second~~ pas du tout
+# Test pas ~~du tout~~ maintenant
 
 <pre>
 it("shows results");
 </pre>
-
-... on passe pour l'instant.
 
 ---
 
@@ -638,9 +636,75 @@ export class SearchAsYouTypeComponent implements OnInit {
 
 ----
 
+<!-- .slide: data-background="https://nmamfqlmsh.files.wordpress.com/2013/09/1362724811_shutterstock_12893383.jpg" -->
 ... Plus rien.
 
 **Les `Observable`s sont paresseux.** Tant qu'on n'y `.subscribe()` pas, ils ne font rien.
+
+----
+
+```
+&lt;p&gt;Current search term:&lt;/p&gt;
+&lt;pre&gt;{{searchStringDebounced | async }}&lt;/pre&gt;
+```
+
+<img src="https://threadbombing.com/data/media/4/its_magic.jpg" style="float: right;">
+
+<code> | async </code> rend la dernière valeur d'un `Observable`, n'a pas besoin d'être importé, et est auto-unsubscribe.
+
+----
+
+# Exercice 4 : l'exercice
+
+Implémenter le search-as-you-type et présenter votre approche.
+
+- Ne pas s'attarder sur la présentation des résultats (`console.log()` ou bien `<pre>{{ searchResults | async | json}}</pre>`)
+- Rappel : [la version jQuery](https://stackblitz.com/edit/epfl-angular-exercice4-jquery) contient une fonction `searchEPFL()` prête à copier-coller.
+
+----
+
+# L'approche RxJS
+
+<!-- .slide: data-background="https://i.pinimg.com/736x/cf/de/83/cfde83db2b3b0cca907bfa6aaf142618.jpg" -->
+
+Avec l'opérateur `switchMap` ([démo sur rxmarbles.com](https://rxmarbles.com/#switchMap)), on peut
+  - créer un nouvel `Observable` pour chaque valeur de l'`Observable` «parent»;
+  - fusionner les valeurs.
+
+💡 La fonction «switchMappée» peut renvoyer une `Promise` à la place d'un `Observable`.
+
+Note: Ce n'est pas la solution parfaite pour l'instant.
+
+----
+
+# L'approche RxJS
+
+<!-- .slide: data-background="https://i.pinimg.com/736x/cf/de/83/cfde83db2b3b0cca907bfa6aaf142618.jpg" -->
+
+<img src="https://angular-academy.s3.amazonaws.com/angular-university-logo-and-letters.png" style="float: left; max-width: 30%;">
+
+En savoir plus sur `switchMap` et son utilité pour le search-as-you-type : [blog.angular-university.io/rxjs-higher-order-mapping/ (§ “Search TypeAhead”)](https://blog.angular-university.io/rxjs-higher-order-mapping/#searchtypeaheadswitchmapoperatorexample)
+
+<div style="clear: both;"></div>
+
+----
+
+# L'approche RxJS
+
+[Corrigé](https://github.com/epfl-si/formation-angular.search-as-you-type/commit/26c06f687e712d7249f46a52e81afcc0b189956e)
+
+----
+
+# Fin de l'étape
+
+<!-- .slide: data-background="https://www.ebarchitects.eu/blog/wp-content/uploads/2016/02/edvard-munch.jpg" -->
+
+- RxJS : `Observable`s, opérateurs, `Observable`s d'`Observable`s
+- *Functional reactive programming*
+- Mieux que ~~les Promises~~ rien (jQuery et asynchronie incontrôlée)
+- Beaucoup de progrès à faire
+    - Rendu des résultats
+    - Limitation / annulation des requêtes
 
 Note:
 - Parler de «marble testing» après avoir présenté RxJS
