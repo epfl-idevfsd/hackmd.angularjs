@@ -458,6 +458,92 @@ describe('AppComponent', () => {
 
 ... Ça ne marche pas très bien
 
+----
+
+# Exercice 4
+
+<!-- .slide: data-background="/uploads/upload_b38137721942f75cda5bbfa8aa78c862.jpg" -->
+
+
+<ol>
+    <li class="fragment"><pre>
+ng new --defaults --no-routing search-as-you-type
+cd search-as-you-type
+<mark>ng test</mark>
+</pre></li>
+    <li class="fragment"><pre>ng generate component search-as-you-type
+<mark>ng test</mark>
+</pre>
+        <p class="fragment">
+        💡 <code>ng create</code> change les dépendances, il faut donc stopper/redémarrer les tests en continu (commande <code>ng test</code>).
+        </p>
+    </li>
+</ol>
+
+----
+
+# Exercice 4 : révisions
+
+Faisons une mini-app pour les tests manuels&nbsp;:
+
+1. Tout effacer dans `src/app/app.component.html`; remplacer par <pre>&lt;app-search-as-you-type&gt;&lt;/app-search-as-you-type&gt;</pre>
+1. `ng serve` @ http://localhost:4200/
+1. `ng test` : revenir à la barre verte ([solution](https://github.com/epfl-si/formation-angular.search-as-you-type/commit/011fe67a12a8412b6d34e49e955dfa8a1f10c202))
+
+----
+
+# Exercice 4 : diviser pour régner
+
+- <!-- .element: class="fragment" --> Une «coquille» graphique
+    - Fournit : les mots-clefs de recherche
+    - Reçoit : les résultats
+- <!-- .element: class="fragment" --> Un <b>service</b> de recherche
+- <!-- .element: class="fragment" --> La tuyauterie pour les relier : <img src="https://cdn.worldvectorlogo.com/logos/rxjs-1.svg" class="inline logo"> RxJS
+
+----
+
+# Coquille graphique
+
+![](/uploads/upload_20ec5d52fdf8937e54640581aed82c31.png)
+
+----
+
+# Test ~~first~~ second
+
+... À ce stade de notre apprentissage, commençons par un test manuel, et voyons en second lieu comment l'automatiser.
+
+
+<pre class="fragment">
+&lt;input type="text" #searchterm
+    (keyup)="search(searchterm.value)"&gt;
+</pre>
+
+<a class="fragment" href="https://github.com/epfl-si/formation-angular.search-as-you-type/commit/790b6b9f50c34c086c1af12eb697cd6041c0fec4">Suite et fin</a>
+
+----
+
+# Test second
+
+<img src="https://pbs.twimg.com/profile_images/1206579384762679299/hbixlO64_400x400.jpg" style="float: right;">
+
+- <!-- .element: class="fragment" --> <a href="https://angular.io/guide/testing">angular.io/guide/testing</a>
+- <!-- .element: class="fragment" --> ... et Google
+- <!-- .element: class="fragment" --> <code>By.css(...)</code>
+- <!-- .element: class="fragment" --> <code>.triggerEventHandler()</code> <br> (<a href="https://netbasal.com/simulating-events-in-angular-unit-tests-5482618cd6c6#c5ef">exemple</a>)
+- <!-- .element: class="fragment" --> <a href="https://jasmine.github.io/api/3.5/global.html#spyOn"><code>spyOn</code></a> (<a href="https://stackoverflow.com/a/46818801/435004">exemple</a>)
+
+
+----
+
+# Test second
+
+[Solution](https://github.com/epfl-si/formation-angular.search-as-you-type/commit/185840ca661a89c0753ee4c64975cc3f39b17b18)
+
+
+Note:
+- Parler de «marble testing» après avoir présenté RxJS
+
+
 <style>
     .reveal {
         background-color: #fff;
