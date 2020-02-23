@@ -252,13 +252,13 @@ describe('AppComponent', () => {
 <pre><code class="javascript hljs"><span class="hljs-comment">// ...</span>
 describe(<span class="hljs-string">'AppComponent'</span>, () =&gt; {
   <span class="hljs-comment">// ...</span>
-  <mark>it.only</mark>(<span class="hljs-string">'updates the title'</span>, () =&gt; {
+  <mark>fit</mark>(<span class="hljs-string">'updates the title'</span>, () =&gt; {
         <span class="hljs-comment">// ...</span>
   })
 })
 </code></pre>
 
-<p class="fragment">💡 <code><mark>describe.only</mark></code> existe également</p>
+<p class="fragment">💡 <code><mark>fdescribe</mark></code> existe également (<code><mark>f</mark></code> comme <a href="https://jasmine.github.io/api/3.5/global.html#fdescribe">“focused”</a>)</p>
 
 ----
 
