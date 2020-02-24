@@ -787,11 +787,17 @@ Note:
 
 # Exercice 6 : ng-select + chercher-en-tapant
 
-1. Partir du premier exemple de la [doc de ng-select](https://ng-select.github.io/ng-select#/data-sources)
-2. Écouter l'événement [`search`](https://ng-select.github.io/ng-select#/events) (plutôt que chercher une seule fois dans `ngOnInit()`)
-3. Tuyauter ce qui doit l'être pour rechercher dans l'API de l'EPFL
+- Partir du ![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/StackBlitz.svg) <!-- .element: class="inline logo" --> premier exemple de la [doc de ng-select](https://ng-select.github.io/ng-select#/data-sources)
+- Écouter l'événement [`search`](https://ng-select.github.io/ng-select#/events) (plutôt que chercher une seule fois dans `ngOnInit()`)
 
-[Solution](https://stackblitz.com/edit/epfl-angular-exercice6) <!-- element: class="fragment"-->
+----
+
+# Exercice 6 : ng-select + chercher-en-tapant
+
+- Tuyauter ce qui doit l'être pour rechercher dans l'API de l'EPFL
+    - `.pipe(map())` pour transformer les `.sciper` en `.id`
+
+[Solution](https://stackblitz.com/edit/epfl-angular-exercice6) <!-- .element: class="fragment" -->
 
 <style>
     .reveal {
