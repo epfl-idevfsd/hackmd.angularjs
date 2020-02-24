@@ -503,7 +503,7 @@ Faisons une mini-app pour les tests manuels&nbsp;:
 
 # Coquille graphique
 
-![](/uploads/upload_20ec5d52fdf8937e54640581aed82c31.png)
+![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_20ec5d52fdf8937e54640581aed82c31.png)
 
 ----
 
@@ -574,7 +574,7 @@ import { Subject } from 'rxjs';
   }
 ```
 
-![Marble diagram](/uploads/upload_7d708dd506c591285a2321d15a63f375.png)
+![Marble diagram](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_7d708dd506c591285a2321d15a63f375.png)
 
 
 ----
