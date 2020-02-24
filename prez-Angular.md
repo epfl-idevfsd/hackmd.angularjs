@@ -787,7 +787,7 @@ Note:
 
 # Exercice 6 : ng-select + chercher-en-tapant
 
-- Partir du ![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/StackBlitz.svg) <!-- .element: class="inline logo" --> premier exemple de la [doc de ng-select](https://ng-select.github.io/ng-select#/data-sources)
+- Partir du ![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/StackBlitz.svg?sanitize=true) <!-- .element: class="inline logo" --> premier exemple de la [doc de ng-select](https://ng-select.github.io/ng-select#/data-sources)
 - Écouter l'événement [`search`](https://ng-select.github.io/ng-select#/events) (plutôt que chercher une seule fois dans `ngOnInit()`)
 
 ----
