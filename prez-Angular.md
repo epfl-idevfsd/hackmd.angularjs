@@ -441,7 +441,6 @@ describe('AppComponent', () => {
 <ul>
     <li class="fragment">Test-first¹</li>
     <li class="fragment"><img alt="logo RxJS" src="https://rxjs-dev.firebaseapp.com/generated/images/marketing/home/Rx_Logo-512-512.png" class="inline logo"> RxJS</li>
-    <li class="fragment"><img src="https://ng-bootstrap.github.io/img/logo-stack.png" alt="logo ng-bootstrap" class="inline logo"> ng-bootstrap, <img src="https://img.stackshare.io/service/7488/select2.png" alt="logo Select2" class="inline logo"> ng-select</li>
 </ul>
 
 ----
@@ -771,6 +770,18 @@ Du point de vue du **consommateur**, l'injection de dépendances
 
 Note:
 - Sujets potentiellement intéressants pour la journée 3
+
+
+---
+
+# Le décor
+
+<!-- .slide: data-background="/uploads/upload_4378e695ea32dbb93e534972df595195.jpg" -->
+
+<ul>
+    <li class="fragment"><img src="https://ng-bootstrap.github.io/img/logo-stack.png" alt="logo ng-bootstrap" class="inline logo"> ng-bootstrap</li>
+    <li class="fragment"><img src="https://img.stackshare.io/service/7488/select2.png" alt="logo Select2" class="inline logo"> ng-select</li>
+</ul>
 
 
 <style>
