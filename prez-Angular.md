@@ -493,7 +493,7 @@ Faisons une mini-app pour les tests manuels&nbsp;:
 
 # Exercice 4 : diviser pour régner
 
-- <!-- .element: class="fragment" --> Une «coquille» graphique
+- <!-- .element: class="fragment" --> Une «carrosserie» graphique
     - Fournit : les mots-clefs de recherche
     - Reçoit : les résultats
 - <!-- .element: class="fragment" --> Un <b>service</b> de recherche
@@ -501,7 +501,7 @@ Faisons une mini-app pour les tests manuels&nbsp;:
 
 ----
 
-# Coquille graphique
+# Carrosserie graphique
 
 ![](https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_20ec5d52fdf8937e54640581aed82c31.png)
 
