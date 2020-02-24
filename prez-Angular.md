@@ -806,7 +806,7 @@ Note:
 Même chose que l'exercice 6, mais sans le *cloud*.
 
 - Création et injection du `Service`
-- Remise en œuvre du `debounceTime` etc.
+- Raccrochage au `debounceTime` etc. des exercices précédents
 
 <style>
     .reveal {
