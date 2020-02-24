@@ -705,9 +705,72 @@ En savoir plus sur `switchMap` et son utilité pour le search-as-you-type : [blo
 - Beaucoup de progrès à faire
     - Rendu des résultats
     - Limitation / annulation des requêtes
+    - Couverture de tests
+
+---
+
+# Chercher-en-tapant : on améliore
+
+Au cours de cette partie,
+- nous explorerons l'API HTTP d'Angular, qui propose des requêtes annulables
+- nous verrons comment séparer (et tester séparément) le code «graphique» et le client de l'API
+
+
+----
+
+# Injection de dépendances
+
+```javascript
+constructor(private http : HttpClient) {}
+```
+
+<img class="fragment" src="https://media.tenor.com/images/5bcb5056e6dfe7f757018ecaa8a4b868/tenor.gif" style="float: right;">
+
+----
+
+# Exercice 5
+
+Réécrire la fonction `searchEPFL(q)` en termes de `@angular/common/http`.
+
+→ [blog.angular-university.io/angular-http](https://blog.angular-university.io/angular-http/)
+
+----
+
+# Exercice 5
+
+<a href="https://github.com/epfl-si/formation-angular.search-as-you-type/commit/4425021">Solution</a>
+
+<table class="fragment">
+ <tr><th>⊕</th><th>⊖</th></tr>
+    <tr>
+        <td><ul><li>Meilleur style</li><li>Les requêtes sont à présent annulables</li></ul></td>
+        <td>Les tests sont cassés <span class="fragment">(<a href="https://github.com/epfl-si/formation-angular.search-as-you-type/commit/f214a28">solution</a>)</span></td></tr>
+</table>
+
+----
+
+# Fin d'étape
+
+<!-- .slide: data-background="https://stackify.com/wp-content/uploads/2018/06/Design-Patterns-Explained-–-Dependency-Injection-with-Code-Examples.png" -->
+
+Du point de vue du **consommateur**, l'injection de dépendances
+
+- fournit automagiquement des singletons à tout endroit de la hiérarchie des composants,
+- permet d'utiliser des instances séparées pour le test et la production (⇒ **tests hermétiques**)
+
+----
+
+# Pour aller plus loin...
+
+<!-- .slide: data-background="https://news.wisc.edu/content/uploads/2016/07/Sloth-2.jpg" -->
+
+- <!-- .element: class="fragment" --> Couverture de tests
+  - <!-- .element: class="fragment" --> Erreurs côté serveur (500 / timeouts) — <a href="https://medium.com/netscape/testing-with-the-angular-httpclient-api-648203820712#0dae">Mocking avec <code>HttpTestingController</code></a>
+  - <!-- .element: class="fragment" --> Refactorer pour extraire le pipe-line comme un <a href="https://medium.com/javascript-everyday/a-live-search-example-angular-and-react-solutions-bd42a4d5dd7e">nouvel opérateur RxJS</a>, et le mettre sous tests (“marble testing”)
+- <!-- .element: class="fragment" --> Injection de dépendances en tant que <b>producteur</b> (ex : <code>I18NService</code>)
 
 Note:
-- Parler de «marble testing» après avoir présenté RxJS
+- Sujets potentiellement intéressants pour la journée 3
 
 
 <style>
