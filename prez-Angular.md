@@ -453,7 +453,7 @@ describe('AppComponent', () => {
 
 # Exercice 4
 
-<img alt="Logs d'arrivée des réponses dans le désordre" src="/uploads/upload_4b1e2e9d198f7018bfc3476ce185b066.png" id="logs-jquery-desordre">
+<img alt="Logs d'arrivée des réponses dans le désordre" src="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_4b1e2e9d198f7018bfc3476ce185b066.png" id="logs-jquery-desordre">
 
 ... Ça ne marche pas très bien
 
