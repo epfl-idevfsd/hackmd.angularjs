@@ -461,7 +461,7 @@ describe('AppComponent', () => {
 
 # Exercice 4
 
-<!-- .slide: data-background="/uploads/upload_b38137721942f75cda5bbfa8aa78c862.jpg" -->
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_b38137721942f75cda5bbfa8aa78c862.jpg" -->
 
 
 <ol>
@@ -776,7 +776,7 @@ Note:
 
 # Le décor
 
-<!-- .slide: data-background="/uploads/upload_4378e695ea32dbb93e534972df595195.jpg" -->
+<!-- .slide: data-background="https://raw.githubusercontent.com/epfl-idevfsd/hackmd.angularjs/master/uploads/upload_4378e695ea32dbb93e534972df595195.jpg" -->
 
 <ul>
     <li class="fragment"><a href="https://ng-select.github.io/ng-select#/data-sources"><img src="https://img.stackshare.io/service/7488/select2.png" alt="logo Select2" class="inline logo"> ng-select</a></li>
