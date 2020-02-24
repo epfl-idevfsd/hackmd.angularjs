@@ -779,8 +779,8 @@ Note:
 <!-- .slide: data-background="/uploads/upload_4378e695ea32dbb93e534972df595195.jpg" -->
 
 <ul>
-    <li class="fragment"><img src="https://ng-bootstrap.github.io/img/logo-stack.png" alt="logo ng-bootstrap" class="inline logo"> ng-bootstrap</li>
-    <li class="fragment"><img src="https://img.stackshare.io/service/7488/select2.png" alt="logo Select2" class="inline logo"> ng-select</li>
+    <li class="fragment"><a href="https://ng-select.github.io/ng-select#/data-sources"><img src="https://img.stackshare.io/service/7488/select2.png" alt="logo Select2" class="inline logo"> ng-select</a></li>
+    <li class="fragment"><a href="https://ng-bootstrap.github.io/"><img src="https://ng-bootstrap.github.io/img/logo-stack.png" alt="logo ng-bootstrap" class="inline logo"> ng-bootstrap</a></li>
 </ul>
 
 
