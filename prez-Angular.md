@@ -783,6 +783,15 @@ Note:
     <li class="fragment"><a href="https://ng-bootstrap.github.io/"><img src="https://ng-bootstrap.github.io/img/logo-stack.png" alt="logo ng-bootstrap" class="inline logo"> ng-bootstrap</a></li>
 </ul>
 
+---
+
+# Exercice 6 : ng-select + chercher-en-tapant
+
+1. Partir du premier exemple de la [doc de ng-select](https://ng-select.github.io/ng-select#/data-sources)
+2. Écouter l'événement [`search`](https://ng-select.github.io/ng-select#/events) (plutôt que chercher une seule fois dans `ngOnInit()`)
+3. Tuyauter ce qui doit l'être pour rechercher dans l'API de l'EPFL
+
+[Solution](https://stackblitz.com/edit/epfl-angular-exercice6) <!-- element: class="fragment"-->
 
 <style>
     .reveal {
