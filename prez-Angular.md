@@ -523,7 +523,7 @@ Faisons une mini-app pour les tests manuels&nbsp;:
 
 # Test second
 
-<img src="https://pbs.twimg.com/profile_images/1206579384762679299/hbixlO64_400x400.jpg" style="float: right;">
+<img src="https://pbs.twimg.com/profile_images/1206579384762679299/hbixlO64_400x400.jpg" style="float: right; max-width: 20%;">
 
 - <!-- .element: class="fragment" --> <a href="https://angular.io/guide/testing">angular.io/guide/testing</a>
 - <!-- .element: class="fragment" --> ... et Google
