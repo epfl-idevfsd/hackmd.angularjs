@@ -805,8 +805,8 @@ Note:
 
 Même chose que l'exercice 6, mais sans le *cloud*.
 
-- Création et injection du `Service`
 - Raccrochage au `debounceTime` etc. des exercices précédents
+- (Optionnel) Réutiliser l'idée d'un `DataService` injecté comme fait dans le StackBlitz
 
 <style>
     .reveal {
