@@ -799,6 +799,15 @@ Note:
 
 [Solution](https://stackblitz.com/edit/epfl-angular-exercice6) <!-- .element: class="fragment" -->
 
+----
+
+# Exercice 7
+
+Même chose que l'exercice 6, mais sans le *cloud*.
+
+- Création et injection du `Service`
+- Remise en œuvre du `debounceTime` etc.
+
 <style>
     .reveal {
         background-color: #fff;
